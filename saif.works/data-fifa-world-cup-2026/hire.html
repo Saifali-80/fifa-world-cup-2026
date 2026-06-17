@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saifis · Let's build something.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,800&display=swap" rel="stylesheet" />
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+        :root{
+            --bg:#FAF7F3;
+            --bg2:#F2EDE4;
+            --bg-card:#ffffff;
+            --bg-input:#FAF7F3;
+            --border:#E5D7C6;
+            --text:#1a1410;
+            --text-muted:#7a6d5e;
+            --text-hint:#a89a87;
+            --accent:#D9A299;
+            --accent2:#C9883A;
+            --accent-hover:#c9b0a8;
+            --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+            --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+            --radius:16px;
+            --radius-sm:10px;
+            --transition:0.25s ease;
+            --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+            --serif:'Playfair Display',Georgia,serif;
+        }
+
+        html.dark{
+            --bg:#1a1410;
+            --bg2:#221c16;
+            --bg-card:#231d17;
+            --bg-input:#1a1410;
+            --border:#3a302a;
+            --text:#f4ede2;
+            --text-muted:#a89c8b;
+            --text-hint:#6b6358;
+            --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+            --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+        }
+
+        html{scroll-behavior:smooth}
+
+        body{
+            font-family:var(--sans);
+            background-color:var(--bg);
+            color:var(--text);
+            line-height:1.5;
+            -webkit-font-smoothing:antialiased;
+            padding:2rem 1.5rem 5rem;
+            max-width:1000px;
+            margin:0 auto;
+            transition:background-color .5s ease,color .5s ease;
+        }
+
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--border);border-radius:12px}
+
+        /* ---- theme toggle ---- */
+        .theme-toggle{
+            position:fixed;top:24px;right:36px;z-index:38;
+            width:36px;height:36px;
+            display:flex;align-items:center;justify-content:center;
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:50%;cursor:pointer;color:var(--text-muted);
+            box-shadow:var(--card-shadow);
+            transition:color .35s ease,background .25s,border-color .25s;
+        }
+        .theme-toggle:hover{color:var(--text);background:var(--bg2)}
+        .theme-toggle svg{width:15px;height:15px}
+        .theme-toggle .icon-sun{display:none}
+        html.dark .theme-toggle .icon-sun{display:block}
+        html.dark .theme-toggle .icon-moon{display:none}
+
+        /* ---- hero ---- */
+        .hero{
+            padding:3rem 0 4rem;
+            border-bottom:1px solid var(--border);
+            margin-bottom:4rem;
+        }
+        .hero-eyebrow{
+            display:inline-flex;align-items:center;gap:10px;
+            font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+            color:var(--text-hint);margin-bottom:20px;
+        }
+        .hero-eyebrow::before{content:'';width:20px;height:1.5px;background:var(--accent)}
+        .hero h1{
+            font-family:var(--serif);
+            font-size:clamp(2.6rem,6vw,4.6rem);
+            font-weight:800;letter-spacing:-.03em;line-height:1.05;
+            margin-bottom:1rem;color:var(--text);
+        }
+        .hero h1 em{font-style:italic;color:var(--accent)}
+        .hero p{
+            font-size:1.1rem;color:var(--text-muted);max-width:480px;line-height:1.65;
+        }
+
+        /* ---- sections ---- */
+        section{margin-bottom:4rem}
+
+        .section-header{
+            display:flex;align-items:baseline;gap:12px;
+            margin-bottom:1.75rem;
+            padding-bottom:14px;
+            border-bottom:1px solid var(--border);
+        }
+        .section-header .number{
+            font-family:var(--serif);
+            font-size:1.1rem;font-weight:800;color:var(--accent);letter-spacing:-.01em;
+        }
+        .section-header h2{
+            font-size:1rem;font-weight:700;letter-spacing:-.005em;color:var(--text);
+        }
+        .section-header .sub{
+            font-size:0.8rem;color:var(--text-hint);margin-left:auto;font-weight:500;
+        }
+
+        /* ---- chips ---- */
+        .chip-group{display:flex;flex-wrap:wrap;gap:.6rem}
+
+        .chip{
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            padding:.6rem 1.3rem;
+            border-radius:100px;
+            font-size:.9rem;font-weight:500;color:var(--text-muted);
+            cursor:pointer;
+            box-shadow:var(--card-shadow);
+            transition:background var(--transition),border-color var(--transition),color var(--transition),transform var(--transition),box-shadow var(--transition);
+            user-select:none;font-family:var(--sans);
+        }
+        .chip:hover{
+            border-color:var(--accent);color:var(--text);
+            transform:translateY(-2px);box-shadow:var(--card-shadow-hover);
+        }
+        .chip.active{
+            background:var(--accent);border-color:var(--accent);
+            color:#1a1410;font-weight:700;
+            box-shadow:0 4px 20px rgba(217,162,153,.35);
+        }
+
+        /* ---- form ---- */
+        .form-grid{
+            display:grid;grid-template-columns:1fr 1fr;
+            gap:1rem 1.5rem;
+        }
+        .form-group{display:flex;flex-direction:column;gap:.35rem}
+        .form-group.full{grid-column:1/-1}
+
+        .form-group label{
+            font-size:.72rem;font-weight:700;color:var(--text-hint);
+            letter-spacing:.06em;text-transform:uppercase;
+        }
+        .form-group input,
+        .form-group textarea{
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius-sm);
+            padding:.75rem 1rem;
+            font-size:.95rem;font-family:var(--sans);color:var(--text);
+            outline:none;width:100%;
+            box-shadow:var(--card-shadow);
+            transition:border-color var(--transition),box-shadow var(--transition);
+        }
+        .form-group input:focus,
+        .form-group textarea:focus{
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(217,162,153,.15),var(--card-shadow);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder{color:var(--text-hint);opacity:.7}
+        .form-group textarea{resize:vertical;min-height:80px}
+
+        /* ---- budget & timeline ---- */
+        .budget-grid{display:flex;flex-wrap:wrap;gap:.6rem}
+
+        /* ---- brief box ---- */
+        .brief-box{
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:2.2rem 2.2rem 2rem;
+            display:flex;flex-direction:column;gap:1.4rem;
+            box-shadow:var(--card-shadow);
+            position:relative;overflow:hidden;
+        }
+        .brief-box::before{
+            content:'';
+            position:absolute;top:0;left:0;right:0;height:3px;
+            background:linear-gradient(90deg,var(--accent),var(--accent2));
+        }
+        .brief-box p{
+            font-size:1.05rem;color:var(--text-muted);max-width:560px;line-height:1.65;
+        }
+        .brief-actions{
+            display:flex;flex-wrap:wrap;align-items:center;gap:1.2rem 2rem;
+        }
+
+        .btn-primary{
+            background:var(--text);
+            border:none;
+            padding:.8rem 2rem;border-radius:100px;
+            font-size:.95rem;font-weight:700;color:var(--bg);
+            cursor:pointer;
+            display:inline-flex;align-items:center;gap:.5rem;
+            font-family:var(--sans);
+            transition:background var(--transition),transform var(--transition),box-shadow var(--transition);
+            box-shadow:0 4px 20px rgba(26,20,16,.15);
+        }
+        .btn-primary:hover{
+            background:var(--accent2);
+            transform:translateY(-2px);
+            box-shadow:0 8px 32px rgba(201,136,58,.3);
+        }
+        .btn-primary .arrow{display:inline-block;transition:transform var(--transition)}
+        .btn-primary:hover .arrow{transform:translateX(5px)}
+
+        .brief-meta{
+            display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.5rem;
+            font-size:.85rem;color:var(--text-muted);
+        }
+        .brief-meta .email{
+            color:var(--accent);text-decoration:none;
+            border-bottom:1.5px solid var(--accent);padding-bottom:2px;
+            font-weight:600;
+            transition:color var(--transition),border-color var(--transition);
+        }
+        .brief-meta .email:hover{color:var(--text);border-color:var(--text)}
+        .brief-meta .coffee{
+            display:inline-flex;align-items:center;gap:.3rem;
+            color:var(--text-muted);text-decoration:none;
+            transition:color var(--transition);
+        }
+        .brief-meta .coffee:hover{color:var(--text)}
+
+        /* ---- footer hire ---- */
+        .footer-hire{
+            margin-top:3rem;padding-top:2rem;
+            border-top:1px solid var(--border);
+            display:flex;justify-content:flex-end;
+        }
+        .btn-hire{
+            background:transparent;
+            border:1px solid var(--border);
+            padding:.7rem 2.2rem;border-radius:100px;
+            font-size:.9rem;font-weight:700;color:var(--text);
+            cursor:pointer;
+            font-family:var(--sans);
+            box-shadow:var(--card-shadow);
+            transition:background var(--transition),border-color var(--transition),color var(--transition),transform var(--transition),box-shadow var(--transition);
+        }
+        .btn-hire:hover{
+            background:var(--text);border-color:var(--text);color:var(--bg);
+            transform:translateY(-2px);box-shadow:var(--card-shadow-hover);
+        }
+
+        /* ---- toast ---- */
+        .toast{
+            position:fixed;bottom:2rem;left:50%;
+            transform:translateX(-50%) translateY(100px);
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:.9rem 1.8rem;
+            font-size:.9rem;color:var(--text);
+            box-shadow:0 16px 48px rgba(0,0,0,.15);
+            opacity:0;
+            transition:opacity .4s ease,transform .4s ease;
+            pointer-events:none;z-index:999;text-align:center;
+        }
+        .toast.show{
+            opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;
+        }
+
+        /* ---- responsive ---- */
+        @media(max-width:700px){
+            body{padding:1.2rem 1rem 3.5rem}
+            .hero{padding:2rem 0 3rem;margin-bottom:3rem}
+            .form-grid{grid-template-columns:1fr;gap:.9rem}
+            .brief-box{padding:1.6rem}
+            .brief-actions{flex-direction:column;align-items:flex-start;gap:1rem}
+            .brief-meta{flex-direction:column;align-items:flex-start;gap:.4rem}
+            .section-header .sub{display:none}
+            .footer-hire{justify-content:center}
+        }
+        @media(max-width:480px){
+            .chip{font-size:.8rem;padding:.5rem 1rem}
+            .btn-primary{width:100%;justify-content:center}
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div id="toast" class="toast">✓ Thanks — we'll be in touch within a day.</div>
+
+    <header class="hero">
+        <div class="hero-eyebrow">Saifis Works</div>
+        <h1>Let's build <em>something</em>.</h1>
+        <p>We design and build data stories, websites and brands. Pieces like the one you've been scrolling.</p>
+    </header>
+
+    <section>
+        <div class="section-header">
+            <span class="number">01</span>
+            <h2>What do you need? <span style="font-weight:400;color:var(--text-hint);">pick any</span></h2>
+        </div>
+        <div class="chip-group" id="needsGroup">
+            <span class="chip active" data-value="data-viz">Data visualisation</span>
+            <span class="chip" data-value="web-design">Web design</span>
+            <span class="chip" data-value="web-dev">Web development</span>
+            <span class="chip" data-value="brand">Brand &amp; identity</span>
+            <span class="chip" data-value="other">Something else</span>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-header">
+            <span class="number">02</span>
+            <h2>About you</h2>
+        </div>
+        <form id="aboutForm" class="form-grid">
+            <div class="form-group">
+                <label for="name">Your name</label>
+                <input type="text" id="name" placeholder="e.g. Jamie Chen" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="jamie@studio.co" required />
+            </div>
+            <div class="form-group">
+                <label for="company">Company <span style="color:var(--text-hint);font-weight:400;">(optional)</span></label>
+                <input type="text" id="company" placeholder="Studio Name" />
+            </div>
+            <div class="form-group">
+                <label for="website">Website or link <span style="color:var(--text-hint);font-weight:400;">(optional)</span></label>
+                <input type="text" id="website" placeholder="https://" />
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <div class="section-header">
+            <span class="number">03</span>
+            <h2>Budget &amp; timeline <span style="font-weight:400;color:var(--text-hint);">rough is fine</span></h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1.2rem;">
+            <div class="budget-grid" id="budgetGroup">
+                <span class="chip" data-value="under5k">Under $5k</span>
+                <span class="chip active" data-value="5-15k">$5–15k</span>
+                <span class="chip" data-value="15-40k">$15–40k</span>
+                <span class="chip" data-value="40k+">$40k+</span>
+            </div>
+            <div class="budget-grid" id="timelineGroup">
+                <span class="chip" data-value="asap">ASAP</span>
+                <span class="chip active" data-value="1-3mo">1–3 months</span>
+                <span class="chip" data-value="flexible">Flexible</span>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-header">
+            <span class="number">04</span>
+            <h2>The brief</h2>
+        </div>
+        <div class="brief-box">
+            <p>What are you trying to make? Who's it for? What does good look like?</p>
+            <div class="brief-actions">
+                <button class="btn-primary" id="sendBriefBtn">
+                    Send the brief <span class="arrow">→</span>
+                </button>
+                <div class="brief-meta">
+                    <span>No pitch. Quick yes. Multiple ways in.</span>
+                    <a href="mailto:Saif@Works" class="email">Saif@Works</a>
+                    <a href="https://buymeacoffee.com/saifisworks" target="_blank" class="coffee" id="coffeeLink"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-hire">
+        <button class="btn-hire" id="hireBtn">Hire us</button>
+    </div>
+
+    <script>
+    (function(){
+        'use strict';
+
+        const themeToggle = document.getElementById('themeToggle');
+        function applyTheme(t){document.documentElement.classList.toggle('dark',t==='dark')}
+        const saved = localStorage.getItem('wc.theme');
+        const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(saved||(sysDark?'dark':'light'));
+        themeToggle.addEventListener('click',()=>{
+            const next = document.documentElement.classList.contains('dark')?'light':'dark';
+            applyTheme(next);localStorage.setItem('wc.theme',next);
+        });
+
+        const toast = document.getElementById('toast');
+        let toastTimer = null;
+        function showToast(msg){
+            toast.textContent = msg||'✓ Thanks — we\'ll be in touch within a day.';
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(()=>toast.classList.remove('show'),3200);
+        }
+
+        function setupChipGroup(id){
+            const container = document.getElementById(id);
+            if(!container) return;
+            container.querySelectorAll('.chip').forEach(chip=>{
+                chip.addEventListener('click',function(){
+                    container.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        }
+        setupChipGroup('needsGroup');
+        setupChipGroup('budgetGroup');
+        setupChipGroup('timelineGroup');
+
+        function getSelectedValue(id){
+            const c = document.getElementById(id);
+            if(!c) return null;
+            const a = c.querySelector('.chip.active');
+            return a?a.dataset.value:null;
+        }
+        function getFormData(){
+            return{
+                name:document.getElementById('name').value.trim(),
+                email:document.getElementById('email').value.trim(),
+                company:document.getElementById('company').value.trim(),
+                website:document.getElementById('website').value.trim(),
+                need:getSelectedValue('needsGroup'),
+                budget:getSelectedValue('budgetGroup'),
+                timeline:getSelectedValue('timelineGroup'),
+            };
+        }
+        function validateForm(data){
+            if(!data.name) return 'Please enter your name.';
+            if(!data.email) return 'Please enter your email.';
+            if(!data.email.includes('@')||!data.email.includes('.')) return 'Please enter a valid email address.';
+            if(!data.need) return 'Please pick what you need.';
+            if(!data.budget) return 'Please pick a budget range.';
+            if(!data.timeline) return 'Please pick a timeline.';
+            return null;
+        }
+
+        document.getElementById('sendBriefBtn').addEventListener('click',function(e){
+            e.preventDefault();
+            const data = getFormData();
+            const error = validateForm(data);
+            if(error){showToast('✕ '+error);return;}
+            console.log(['📋 New brief from '+data.name,'Name: '+data.name,'Email: '+data.email,'Company: '+(data.company||'—'),'Website: '+(data.website||'—'),'Need: '+(data.need||'—'),'Budget: '+(data.budget||'—'),'Timeline: '+(data.timeline||'—')].join('\n'));
+            showToast('✓ Brief sent — we\'ll reply within a day.');
+        });
+
+        document.getElementById('hireBtn').addEventListener('click',function(){
+            const data = getFormData();
+            const error = validateForm(data);
+            if(error){showToast('✕ '+error);return;}
+            showToast('✓ Thanks! We\'ll reach out shortly.');
+        });
+    })();
+    </script>
+</body>
+</html>

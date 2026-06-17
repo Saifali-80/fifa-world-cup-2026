@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Teams · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --bg2:#F2EDE4;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --accent2:#C9883A;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --card-bg:#FFFFFF;
+      --card-border:rgba(26,20,16,.08);
+      --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+      --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --serif:'Playfair Display',Georgia,serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+      --ease-out:cubic-bezier(0.22,1,0.36,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --bg2:#221c16;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+      --card-bg:#231d17;
+      --card-border:rgba(244,237,226,.07);
+      --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+      --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+
+    .top-bar{
+      position:fixed;top:0;left:0;right:0;height:72px;z-index:33;
+      background:var(--bg);border-bottom:1px solid transparent;
+      transition:background .5s var(--ease), border-color .3s;
+    }
+    .top-bar.scrolled{border-color:var(--line)}
+    .brand-logo{
+      position:fixed;top:26px;left:36px;z-index:36;
+      font-family:var(--serif);font-weight:800;font-size:15px;color:var(--ink);
+      opacity:1;pointer-events:auto;
+      transition:color .5s var(--ease);
+    }
+    .brand-logo:hover{color:var(--accent2)}
+    .theme-toggle{
+      position:fixed;top:24px;right:36px;z-index:38;
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--card-bg);border:1px solid var(--card-border);
+      border-radius:50%;cursor:pointer;color:var(--ink2);
+      transition:all .35s var(--ease);
+    }
+    .theme-toggle:hover{color:var(--ink);background:var(--bg2)}
+    .theme-toggle svg{width:15px;height:15px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+    .top-nav{
+      position:fixed;top:28px;right:88px;z-index:35;
+      display:flex;gap:4px;
+      opacity:1;
+    }
+    .top-nav a{
+      color:var(--ink2);
+      font-size:12px;font-weight:600;letter-spacing:.06em;
+      padding:5px 12px;border-radius:20px;
+      transition:color .25s, background .25s;
+    }
+    .top-nav a:hover{color:var(--ink);background:var(--bg2)}
+    .top-nav a.active{color:var(--ink);background:var(--bg2)}
+
+    main{padding:100px clamp(20px,3vw,40px) 60px;max-width:1280px;margin:0 auto}
+
+    .page-header{margin-bottom:40px}
+    .page-header h1{
+      font-family:var(--serif);
+      font-size:clamp(36px,4vw,60px);
+      font-weight:800;letter-spacing:-.03em;color:var(--ink);
+      margin-bottom:8px;
+    }
+    .page-header p{font-size:18px;color:var(--ink2)}
+
+    .filter-bar{
+      display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;
+    }
+    .filter-bar button{
+      padding:6px 16px;
+      border:1px solid var(--card-border);
+      border-radius:20px;
+      background:transparent;
+      color:var(--ink2);
+      font:600 12px var(--sans);
+      cursor:pointer;
+      transition:all .3s var(--ease);
+    }
+    .filter-bar button:hover{
+      border-color:var(--accent);
+      color:var(--ink);
+      background:var(--bg2);
+    }
+    .filter-bar button.active{
+      background:var(--accent);
+      color:var(--bg);
+      border-color:var(--accent);
+    }
+
+    .team-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+      gap:24px;
+    }
+    .team-card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:16px;
+      padding:24px 16px 20px;
+      text-align:center;
+      box-shadow:var(--card-shadow);
+      transition:all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position:relative;
+      will-change:transform;
+      opacity:0;
+      animation: slideUpFade 0.6s ease forwards;
+    }
+    .team-card:hover{
+      transform:translateY(-10px) scale(1.04);
+      box-shadow:var(--card-shadow-hover);
+      border-color:var(--accent);
+    }
+
+    /* Staggered Entrance */
+    .team-card:nth-child(1) { animation-delay: 0.03s; }
+    .team-card:nth-child(2) { animation-delay: 0.06s; }
+    .team-card:nth-child(3) { animation-delay: 0.09s; }
+    .team-card:nth-child(4) { animation-delay: 0.12s; }
+    .team-card:nth-child(5) { animation-delay: 0.15s; }
+    .team-card:nth-child(6) { animation-delay: 0.18s; }
+    .team-card:nth-child(7) { animation-delay: 0.21s; }
+    .team-card:nth-child(8) { animation-delay: 0.24s; }
+    .team-card:nth-child(9) { animation-delay: 0.27s; }
+    .team-card:nth-child(10) { animation-delay: 0.30s; }
+    .team-card:nth-child(11) { animation-delay: 0.33s; }
+    .team-card:nth-child(12) { animation-delay: 0.36s; }
+    .team-card:nth-child(13) { animation-delay: 0.39s; }
+    .team-card:nth-child(14) { animation-delay: 0.42s; }
+    .team-card:nth-child(15) { animation-delay: 0.45s; }
+    .team-card:nth-child(16) { animation-delay: 0.48s; }
+    .team-card:nth-child(17) { animation-delay: 0.51s; }
+    .team-card:nth-child(18) { animation-delay: 0.54s; }
+    .team-card:nth-child(19) { animation-delay: 0.57s; }
+    .team-card:nth-child(20) { animation-delay: 0.60s; }
+    .team-card:nth-child(21) { animation-delay: 0.63s; }
+    .team-card:nth-child(22) { animation-delay: 0.66s; }
+    .team-card:nth-child(23) { animation-delay: 0.69s; }
+    .team-card:nth-child(24) { animation-delay: 0.72s; }
+    .team-card:nth-child(25) { animation-delay: 0.75s; }
+    .team-card:nth-child(26) { animation-delay: 0.78s; }
+    .team-card:nth-child(27) { animation-delay: 0.81s; }
+    .team-card:nth-child(28) { animation-delay: 0.84s; }
+    .team-card:nth-child(29) { animation-delay: 0.87s; }
+    .team-card:nth-child(30) { animation-delay: 0.90s; }
+    .team-card:nth-child(31) { animation-delay: 0.93s; }
+    .team-card:nth-child(32) { animation-delay: 0.96s; }
+    .team-card:nth-child(33) { animation-delay: 0.99s; }
+    .team-card:nth-child(34) { animation-delay: 1.02s; }
+    .team-card:nth-child(35) { animation-delay: 1.05s; }
+    .team-card:nth-child(36) { animation-delay: 1.08s; }
+    .team-card:nth-child(37) { animation-delay: 1.11s; }
+    .team-card:nth-child(38) { animation-delay: 1.14s; }
+    .team-card:nth-child(39) { animation-delay: 1.17s; }
+    .team-card:nth-child(40) { animation-delay: 1.20s; }
+    .team-card:nth-child(41) { animation-delay: 1.23s; }
+    .team-card:nth-child(42) { animation-delay: 1.26s; }
+    .team-card:nth-child(43) { animation-delay: 1.29s; }
+    .team-card:nth-child(44) { animation-delay: 1.32s; }
+    .team-card:nth-child(45) { animation-delay: 1.35s; }
+    .team-card:nth-child(46) { animation-delay: 1.38s; }
+    .team-card:nth-child(47) { animation-delay: 1.41s; }
+    .team-card:nth-child(48) { animation-delay: 1.44s; }
+
+    @keyframes slideUpFade {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glow Ring on Hover */
+    .team-card::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--accent), transparent, var(--accent2), transparent);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      /* WebKit composite mode */
+      -webkit-mask-composite: xor;
+      /* Standard composite (best-effort fallback) */
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      animation: borderGlow 3s ease infinite;
+      pointer-events: none;
+    }
+
+    .team-card:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .team-card img{
+      width:72px;height:72px;
+      margin:0 auto 12px;
+      object-fit:contain;
+      transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .team-card:hover img{
+      transform:scale(1.12) rotate(-4deg);
+    }
+    .team-card .name{
+      font-size:15px;font-weight:700;color:var(--ink);
+      letter-spacing:-.005em;
+    }
+    .team-card .group{
+      font-size:11px;color:var(--accent);
+      font-weight:600;text-transform:uppercase;letter-spacing:.06em;
+      margin-top:4px;
+    }
+
+    .back-link{
+      display:inline-flex;align-items:center;gap:6px;
+      color:var(--ink2);font-size:14px;font-weight:600;
+      margin-bottom:24px;transition:color .25s;
+    }
+    .back-link:hover{color:var(--ink)}
+
+    .footer{
+      border-top:1px solid var(--line);
+      padding:32px clamp(20px,3vw,40px);
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+      max-width:1280px;margin:0 auto;
+    }
+    .footer b{color:var(--ink);font-weight:600}
+
+    @media (max-width:720px){
+      .top-nav{display:none!important}
+      .team-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px}
+      .team-card{padding:16px 12px}
+      .team-card img{width:56px;height:56px}
+      .filter-bar{justify-content:center}
+      .filter-bar button{font-size:11px;padding:5px 12px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar" id="topBar"></div>
+<a class="brand-logo" href="./index.html">World Cup 2026</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html">Stadiums</a>
+  <a href="./teams.html" class="active">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html">Standings</a>
+  <a href="./live.html">Live</a>
+</nav>
+
+<main>
+  <a class="back-link" href="./index.html">← Home</a>
+
+  <div class="page-header">
+    <h1>Teams</h1>
+    <p>48 nations, 12 groups</p>
+  </div>
+  
+  <div class="filter-bar" id="filterBar">
+    <button class="active" data-group="all">All</button>
+    <button data-group="A">A</button>
+    <button data-group="B">B</button>
+    <button data-group="C">C</button>
+    <button data-group="D">D</button>
+    <button data-group="E">E</button>
+    <button data-group="F">F</button>
+    <button data-group="G">G</button>
+    <button data-group="H">H</button>
+    <button data-group="I">I</button>
+    <button data-group="J">J</button>
+    <button data-group="K">K</button>
+    <button data-group="L">L</button>
+  </div>
+  
+  <div class="team-grid" id="teamGrid"></div>
+</main>
+
+<footer class="footer">
+  <span>© <b>Saifis Works</b> · 2026</span>
+  <span><b>Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const topBar = document.getElementById('topBar');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('wc.theme', next);
+  });
+  window.addEventListener('scroll', () => {
+    topBar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
+
+<script src="./data.js"></script>
+<script>
+  (function(){
+    const V = window.WC.venues;
+    const grid = document.getElementById('teamGrid');
+    const filterBar = document.getElementById('filterBar');
+    if(!V || !grid) return;
+    
+    // Extract all unique teams with their groups
+    const teams = {};
+    V.forEach(v => {
+      (v.matches||[]).forEach(m => {
+        if(m.group && m.group !== 'R32' && m.group !== 'QF' && m.group !== 'SF' && m.group !== '3P' && m.group !== 'Final') {
+          if(m.home && m.home !== 'TBD') teams[m.home] = m.group;
+          if(m.away && m.away !== 'TBD') teams[m.away] = m.group;
+        }
+      });
+    });
+    
+    const sortedTeams = Object.keys(teams).sort();
+    
+    function renderTeams(filter) {
+      const filtered = filter === 'all' ? sortedTeams : sortedTeams.filter(t => teams[t] === filter);
+      grid.innerHTML = filtered.map(name => {
+        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+        return `
+          <a class="team-card" href="./team.html?team=${encodeURIComponent(name)}">
+            <img src="./homes/${slug}.webp" alt="${name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect width=%2280%22 height=%2280%22 fill=%22%23E5D7C6%22/%3E%3Ctext x=%2240%22 y=%2248%22 text-anchor=%22middle%22 fill=%22%237a6d5e%22 font-size=%2212%22 font-family=%22sans-serif%22%3E${name.substring(0,3)}%3C/text%3E%3C/svg%3E'">
+            <div class="name">${name}</div>
+            <div class="group">Group ${teams[name]}</div>
+          </a>
+        `;
+      }).join('');
+    }
+    
+    renderTeams('all');
+    
+    filterBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      filterBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTeams(btn.dataset.group);
+    });
+  })();
+</script>
+
+<script src="./mobile-nav.js"></script>
+</body>
+</html>

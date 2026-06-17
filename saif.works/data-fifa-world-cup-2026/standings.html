@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Standings · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --bg2:#F2EDE4;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --accent2:#C9883A;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --card-bg:#FFFFFF;
+      --card-border:rgba(26,20,16,.08);
+      --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+      --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --serif:'Playfair Display',Georgia,serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+      --ease-out:cubic-bezier(0.22,1,0.36,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --bg2:#221c16;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+      --card-bg:#231d17;
+      --card-border:rgba(244,237,226,.07);
+      --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+      --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+
+    .top-bar{
+      position:fixed;top:0;left:0;right:0;height:72px;z-index:33;
+      background:var(--bg);border-bottom:1px solid transparent;
+      transition:background .5s var(--ease), border-color .3s;
+    }
+    .top-bar.scrolled{border-color:var(--line)}
+    .brand-logo{
+      position:fixed;top:26px;left:36px;z-index:36;
+      font-family:var(--serif);font-weight:800;font-size:15px;color:var(--ink);
+      opacity:1;pointer-events:auto;
+      transition:color .5s var(--ease);
+    }
+    .brand-logo:hover{color:var(--accent2)}
+    .theme-toggle{
+      position:fixed;top:24px;right:36px;z-index:38;
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--card-bg);border:1px solid var(--card-border);
+      border-radius:50%;cursor:pointer;color:var(--ink2);
+      transition:all .35s var(--ease);
+    }
+    .theme-toggle:hover{color:var(--ink);background:var(--bg2)}
+    .theme-toggle svg{width:15px;height:15px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+    .top-nav{
+      position:fixed;top:28px;right:88px;z-index:35;
+      display:flex;gap:4px;
+      opacity:1;
+    }
+    .top-nav a{
+      color:var(--ink2);
+      font-size:12px;font-weight:600;letter-spacing:.06em;
+      padding:5px 12px;border-radius:20px;
+      transition:color .25s, background .25s;
+    }
+    .top-nav a:hover{color:var(--ink);background:var(--bg2)}
+    .top-nav a.active{color:var(--ink);background:var(--bg2)}
+
+    main{padding:100px clamp(20px,3vw,40px) 60px;max-width:1280px;margin:0 auto}
+
+    .page-header{margin-bottom:48px}
+    .page-header h1{
+      font-family:var(--serif);
+      font-size:clamp(36px,4vw,60px);
+      font-weight:800;letter-spacing:-.03em;color:var(--ink);
+      margin-bottom:8px;
+    }
+    .page-header p{font-size:18px;color:var(--ink2)}
+
+    /* ─── FILTER BAR ─── */
+    .filter-bar{
+      display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;
+    }
+    .filter-bar button{
+      padding:6px 16px;
+      border:1px solid var(--card-border);
+      border-radius:20px;
+      background:transparent;
+      color:var(--ink2);
+      font:600 12px var(--sans);
+      cursor:pointer;
+      transition:all .3s var(--ease);
+    }
+    .filter-bar button:hover{
+      border-color:var(--accent);
+      color:var(--ink);
+      background:var(--bg2);
+    }
+    .filter-bar button.active{
+      background:var(--accent);
+      color:var(--bg);
+      border-color:var(--accent);
+    }
+
+    .groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px}
+    
+    .group-card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:16px;
+      padding:24px 24px 20px;
+      transition:all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow:var(--card-shadow);
+      position:relative;
+      will-change:transform;
+      opacity:0;
+      animation: slideUpFade 0.6s ease forwards;
+    }
+    .group-card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:var(--card-shadow-hover);
+      border-color:var(--accent);
+    }
+
+    /* Staggered Entrance */
+    .group-card:nth-child(1) { animation-delay: 0.05s; }
+    .group-card:nth-child(2) { animation-delay: 0.10s; }
+    .group-card:nth-child(3) { animation-delay: 0.15s; }
+    .group-card:nth-child(4) { animation-delay: 0.20s; }
+    .group-card:nth-child(5) { animation-delay: 0.25s; }
+    .group-card:nth-child(6) { animation-delay: 0.30s; }
+    .group-card:nth-child(7) { animation-delay: 0.35s; }
+    .group-card:nth-child(8) { animation-delay: 0.40s; }
+    .group-card:nth-child(9) { animation-delay: 0.45s; }
+    .group-card:nth-child(10) { animation-delay: 0.50s; }
+    .group-card:nth-child(11) { animation-delay: 0.55s; }
+    .group-card:nth-child(12) { animation-delay: 0.60s; }
+
+    @keyframes slideUpFade {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glow Ring on Hover */
+    .group-card::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--accent), transparent, var(--accent2), transparent);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      /* Standard property for broader browser compatibility */
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      animation: borderGlow 3s ease infinite;
+      pointer-events: none;
+    }
+
+    .group-card:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .group-card h3{
+      font-family:var(--serif);
+      font-size:22px;font-weight:800;
+      margin-bottom:16px;letter-spacing:-.01em;
+      padding:6px 14px;
+      border-radius:12px;
+      display:inline-block;
+      background:var(--accent);
+      color:var(--bg);
+    }
+    html.dark .group-card h3{
+      background:var(--accent);
+      color:var(--bg);
+    }
+    .group-card table{width:100%;border-collapse:collapse;font-size:13px}
+    .group-card th{
+      text-align:left;padding:8px 6px;
+      color:var(--ink3);font-weight:600;font-size:10px;
+      text-transform:uppercase;letter-spacing:.08em;
+      border-bottom:1.5px solid var(--line);
+    }
+    .group-card td{padding:8px 6px;border-bottom:1px solid var(--line);font-size:13px}
+    .group-card tr:last-child td{border-bottom:none}
+    .group-card .pos{
+      font-weight:700;color:var(--ink3);width:28px;text-align:center;
+      font-size:12px;
+    }
+    .group-card .pos.gold{color:var(--accent2)}
+    .group-card .pos.silver{color:var(--ink2)}
+    .group-card .team-name{
+      font-weight:600;color:var(--ink);
+      display:flex;align-items:center;gap:8px;
+    }
+    .group-card .team-name .flag-icon{font-size:14px}
+    .group-card .pts{
+      font-weight:800;color:var(--accent2);text-align:center;
+      font-family:var(--serif);font-size:16px;
+    }
+    .group-card .gd{color:var(--ink2);text-align:center}
+    .group-card .played{color:var(--ink3);text-align:center}
+    .group-card .qualify{
+      color:#1a9c5b;font-size:11px;font-weight:700;
+      margin-top:14px;padding-top:14px;
+      border-top:1.5px solid var(--line);
+    }
+
+    .back-link{
+      display:inline-flex;align-items:center;gap:6px;
+      color:var(--ink2);font-size:14px;font-weight:600;
+      margin-bottom:24px;transition:color .25s;
+    }
+    .back-link:hover{color:var(--ink)}
+
+    .footer{
+      border-top:1px solid var(--line);
+      padding:32px clamp(20px,3vw,40px);
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+      max-width:1280px;margin:0 auto;
+    }
+    .footer b{color:var(--ink);font-weight:600}
+
+    @media (max-width:720px){
+      .top-nav{display:none!important}
+      .groups-grid{grid-template-columns:1fr;gap:20px}
+      .group-card{padding:18px}
+      .group-card table{font-size:12px}
+      .group-card .pts{font-size:14px}
+      .filter-bar{justify-content:center}
+      .filter-bar button{font-size:11px;padding:5px 12px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar" id="topBar"></div>
+<a class="brand-logo" href="./index.html">World Cup 2026</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html">Stadiums</a>
+  <a href="./teams.html">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html" class="active">Standings</a>
+  <a href="./live.html">Live</a>
+</nav>
+
+<main>
+  <a class="back-link" href="./index.html">← Home</a>
+
+  <div class="page-header">
+    <h1>Standings</h1>
+    <p>Group stage standings · Top 2 qualify for Round of 32</p>
+  </div>
+
+  <!-- ─── FILTER BAR ─── -->
+  <div class="filter-bar" id="filterBar">
+    <button class="active" data-group="all">All</button>
+    <button data-group="A">A</button>
+    <button data-group="B">B</button>
+    <button data-group="C">C</button>
+    <button data-group="D">D</button>
+    <button data-group="E">E</button>
+    <button data-group="F">F</button>
+    <button data-group="G">G</button>
+    <button data-group="H">H</button>
+    <button data-group="I">I</button>
+    <button data-group="J">J</button>
+    <button data-group="K">K</button>
+    <button data-group="L">L</button>
+  </div>
+  
+  <div class="groups-grid" id="groupsGrid"></div>
+</main>
+
+<footer class="footer">
+  <span>© <b>Saifis Works</b> · 2026</span>
+  <span><b>Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const topBar = document.getElementById('topBar');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('wc.theme', next);
+  });
+  window.addEventListener('scroll', () => {
+    topBar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
+
+<script src="./data.js"></script>
+<script src="./wc-live.js"></script>
+<script>
+  (function(){
+    const V = window.WC.venues;
+    const el = document.getElementById('groupsGrid');
+    const filterBar = document.getElementById('filterBar');
+    if(!V || !el) return;
+    
+    // ─── TEAM FLAGS ───
+    const FLAGS = {
+      'Argentina': '🇦🇷', 'Australia': '🇦🇺', 'Belgium': '🇧🇪',
+      'Brazil': '🇧🇷', 'Cabo Verde': '🇨🇻', 'Cameroon': '🇨🇲',
+      'Canada': '🇨🇦', 'Chile': '🇨🇱', 'Colombia': '🇨🇴',
+      'Costa Rica': '🇨🇷', "Côte d'Ivoire": '🇨🇮', 'Croatia': '🇭🇷',
+      'Curaçao': '🇨🇼', 'Czechia': '🇨🇿', 'Denmark': '🇩🇰',
+      'Ecuador': '🇪🇨', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'France': '🇫🇷',
+      'Germany': '🇩🇪', 'Ghana': '🇬🇭', 'Iran': '🇮🇷',
+      'Italy': '🇮🇹', 'Japan': '🇯🇵', 'Jordan': '🇯🇴',
+      'Mexico': '🇲🇽', 'Netherlands': '🇳🇱', 'New Zealand': '🇳🇿',
+      'Nigeria': '🇳🇬', 'Norway': '🇳🇴', 'Paraguay': '🇵🇾',
+      'Peru': '🇵🇪', 'Poland': '🇵🇱', 'Portugal': '🇵🇹',
+      'Qatar': '🇶🇦', 'Saudi Arabia': '🇸🇦', 'Scotland': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+      'Senegal': '🇸🇳', 'Serbia': '🇷🇸', 'South Africa': '🇿🇦',
+      'South Korea': '🇰🇷', 'Spain': '🇪🇸', 'Sweden': '🇸🇪',
+      'Switzerland': '🇨🇭', 'Tunisia': '🇹🇳', 'Turkey': '🇹🇷',
+      'Ukraine': '🇺🇦', 'Uruguay': '🇺🇾', 'USA': '🇺🇸',
+      'Uzbekistan': '🇺🇿', 'Wales': '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
+    };
+
+    // ─── BUILD GROUPS ───
+    const groups = {};
+    const groupOrder = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+    
+    V.forEach(v => {
+      (v.matches||[]).forEach(m => {
+        if(m.group && groupOrder.includes(m.group)) {
+          if(!groups[m.group]) groups[m.group] = {};
+          if(m.home && m.home !== 'TBD') {
+            if(!groups[m.group][m.home]) groups[m.group][m.home] = { played: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
+          }
+          if(m.away && m.away !== 'TBD') {
+            if(!groups[m.group][m.away]) groups[m.group][m.away] = { played: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 };
+          }
+        }
+      });
+    });
+    
+    // ─── COUNT MATCHES ───
+    V.forEach(v => {
+      (v.matches||[]).forEach(m => {
+        if(m.group && groupOrder.includes(m.group) && !m.date.includes('TBD')) {
+          const g = groups[m.group];
+          if(g && g[m.home]) { g[m.home].played++; }
+          if(g && g[m.away]) { g[m.away].played++; }
+        }
+      });
+    });
+    
+    // ─── SAMPLE POINTS ───
+    Object.keys(groups).forEach(g => {
+      const teamsList = Object.keys(groups[g]);
+      teamsList.forEach((t, i) => {
+        groups[g][t].pts = (teamsList.length - i) * 2 + Math.floor(Math.random() * 2);
+        groups[g][t].w = Math.floor(groups[g][t].pts / 3);
+        groups[g][t].d = groups[g][t].pts % 3;
+        groups[g][t].l = Math.max(0, groups[g][t].played - groups[g][t].w - groups[g][t].d);
+        groups[g][t].gf = Math.floor(Math.random() * 6) + 1;
+        groups[g][t].ga = Math.floor(Math.random() * 4);
+      });
+    });
+    
+    // ─── RENDER ───
+    function render(filter){
+      const filteredGroups = filter === 'all' 
+        ? groupOrder.filter(g => groups[g]) 
+        : groupOrder.filter(g => g === filter && groups[g]);
+      
+      el.innerHTML = filteredGroups.map(g => {
+        const data = groups[g];
+        const sorted = Object.keys(data).sort((a,b) => 
+          data[b].pts - data[a].pts || 
+          (data[b].gf - data[b].ga) - (data[a].gf - data[a].ga)
+        );
+        return `
+          <div class="group-card">
+            <h3>Group ${g}</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Team</th>
+                  <th style="text-align:center">P</th>
+                  <th style="text-align:center">GD</th>
+                  <th style="text-align:center">Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${sorted.map((t, i) => {
+                  const posClass = i === 0 ? 'pos gold' : i === 1 ? 'pos silver' : 'pos';
+                  const flag = FLAGS[t] || '🏳️';
+                  return `
+                    <tr>
+                      <td class="${posClass}">${i+1}</td>
+                      <td class="team-name">
+                        <span class="flag-icon">${flag}</span>
+                        ${t}
+                      </td>
+                      <td class="played">${data[t].played}</td>
+                      <td class="gd">${data[t].gf - data[t].ga}</td>
+                      <td class="pts">${data[t].pts}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+            <div class="qualify">Top 2 qualify for Round of 32</div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // ─── FILTER CLICK ───
+    filterBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      filterBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.group);
+    });
+    
+    render('all');
+  })();
+</script>
+
+<script src="./mobile-nav.js"></script>
+</body>
+</html>

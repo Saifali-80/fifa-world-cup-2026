@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Stadium · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --bg2:#F2EDE4;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --accent2:#C9883A;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --card-bg:#FFFFFF;
+      --card-border:rgba(26,20,16,.08);
+      --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+      --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --serif:'Playfair Display',Georgia,serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+      --ease-out:cubic-bezier(0.22,1,0.36,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --bg2:#221c16;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+      --card-bg:#231d17;
+      --card-border:rgba(244,237,226,.07);
+      --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+      --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+
+    .top-bar{
+      position:fixed;top:0;left:0;right:0;height:72px;z-index:33;
+      background:var(--bg);border-bottom:1px solid transparent;
+      transition:background .5s var(--ease), border-color .3s;
+    }
+    .top-bar.scrolled{border-color:var(--line)}
+    .brand-logo{
+      position:fixed;top:26px;left:36px;z-index:36;
+      font-family:var(--serif);font-weight:800;font-size:15px;color:var(--ink);
+      opacity:1;pointer-events:auto;
+      transition:color .5s var(--ease);
+    }
+    .brand-logo:hover{color:var(--accent2)}
+    .theme-toggle{
+      position:fixed;top:24px;right:36px;z-index:38;
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--card-bg);border:1px solid var(--card-border);
+      border-radius:50%;cursor:pointer;color:var(--ink2);
+      transition:all .35s var(--ease);
+    }
+    .theme-toggle:hover{color:var(--ink);background:var(--bg2)}
+    .theme-toggle svg{width:15px;height:15px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+    .top-nav{
+      position:fixed;top:28px;right:88px;z-index:35;
+      display:flex;gap:4px;
+      opacity:1;
+    }
+    .top-nav a{
+      color:var(--ink2);
+      font-size:12px;font-weight:600;letter-spacing:.06em;
+      padding:5px 12px;border-radius:20px;
+      transition:color .25s, background .25s;
+    }
+    .top-nav a:hover{color:var(--ink);background:var(--bg2)}
+    .top-nav a.active{color:var(--ink);background:var(--bg2)}
+
+    main{padding:100px clamp(20px,3vw,40px) 60px;max-width:1000px;margin:0 auto}
+
+    .back-link{
+      display:inline-flex;align-items:center;gap:6px;
+      color:var(--ink2);font-size:14px;font-weight:600;
+      margin-bottom:24px;transition:color .25s;
+    }
+    .back-link:hover{color:var(--ink)}
+
+    /* ─── FILTER BAR ─── */
+    .filter-bar{
+      display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;
+    }
+    .filter-bar button{
+      padding:6px 16px;
+      border:1px solid var(--card-border);
+      border-radius:20px;
+      background:transparent;
+      color:var(--ink2);
+      font:600 12px var(--sans);
+      cursor:pointer;
+      transition:all .3s var(--ease);
+    }
+    .filter-bar button:hover{
+      border-color:var(--accent);
+      color:var(--ink);
+      background:var(--bg2);
+    }
+    .filter-bar button.active{
+      background:var(--accent);
+      color:var(--bg);
+      border-color:var(--accent);
+    }
+
+    .stadium-hero{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-bottom:48px}
+    .stadium-hero img{width:100%;height:300px;object-fit:cover;border-radius:16px;background:var(--bg2)}
+    .stadium-hero .info h1{
+      font-family:var(--serif);
+      font-size:clamp(32px,3.4vw,48px);
+      font-weight:800;letter-spacing:-.02em;color:var(--ink);
+      margin-bottom:4px;
+    }
+    .stadium-hero .info .city{font-size:18px;color:var(--ink2);margin-bottom:12px}
+    .stadium-hero .info .meta{display:flex;flex-wrap:wrap;gap:24px;font-size:14px;color:var(--ink2)}
+    .stadium-hero .info .meta b{color:var(--ink);font-weight:700}
+    .stadium-hero .info .country-badge{
+      display:inline-block;padding:4px 14px;border-radius:10px;
+      font-size:12px;font-weight:700;color:#fff;margin-bottom:10px;
+    }
+
+    .section-title{
+      font-family:var(--serif);
+      font-size:26px;font-weight:800;color:var(--ink);
+      margin-bottom:20px;
+      display:flex;align-items:center;gap:12px;
+    }
+    .section-title .count{font-size:14px;font-weight:600;color:var(--ink3);font-family:var(--sans)}
+
+    .match-list{display:flex;flex-direction:column;gap:8px}
+    .match-row{
+      display:grid;grid-template-columns:80px 1fr 50px 1fr 120px;
+      gap:12px;align-items:center;
+      padding:14px 18px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      color:inherit;
+      transition:border-color .3s, background .3s;
+    }
+    .match-row:hover{background:var(--bg2);border-color:var(--accent)}
+    .match-row .date{font-size:12px;color:var(--ink2);font-weight:500}
+    .match-row .date b{color:var(--ink);display:block;font-weight:700;font-size:14px}
+    .match-row .team{font-weight:600;color:var(--ink);font-size:15px}
+    .match-row .team.away{text-align:right}
+    .match-row .vs{font-size:11px;font-weight:700;color:var(--ink3);text-align:center;text-transform:uppercase;letter-spacing:.06em}
+    .match-row .venue{font-size:12px;color:var(--ink3);text-align:right}
+    .match-row .venue b{color:var(--ink);display:block;font-weight:600}
+    .match-row .score{font-size:18px;font-weight:800;color:var(--accent2);text-align:center}
+
+    .empty-state{text-align:center;padding:60px 20px;color:var(--ink2)}
+    .empty-state .icon{font-size:48px;margin-bottom:12px}
+    .empty-state h3{font-size:22px;font-weight:700;color:var(--ink);margin-bottom:6px}
+
+    .footer{
+      border-top:1px solid var(--line);
+      padding:32px clamp(20px,3vw,40px);
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+      max-width:1280px;margin:0 auto;
+    }
+    .footer b{color:var(--ink);font-weight:600}
+
+    @media (max-width:720px){
+      .top-nav{display:none!important}
+      .stadium-hero{grid-template-columns:1fr;gap:24px}
+      .stadium-hero img{height:200px}
+      .match-row{grid-template-columns:1fr;gap:6px;text-align:center;padding:16px}
+      .match-row .team.away{text-align:center}
+      .match-row .venue{text-align:center}
+      .match-row .score{font-size:24px;padding:4px 0}
+      .filter-bar{justify-content:center}
+      .filter-bar button{font-size:11px;padding:5px 12px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar" id="topBar"></div>
+<a class="brand-logo" href="./index.html">World Cup 2026</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html" class="active">Stadiums</a>
+  <a href="./teams.html">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html">Standings</a>
+</nav>
+
+<main id="main">
+  <a class="back-link" href="./stadiums.html">← All Stadiums</a>
+
+  <!-- ─── FILTER BAR ─── -->
+  <div class="filter-bar" id="filterBar">
+    <button class="active" data-country="all">All</button>
+    <button data-country="Mexico">🇲🇽 Mexico</button>
+    <button data-country="USA">🇺🇸 USA</button>
+    <button data-country="Canada">🇨🇦 Canada</button>
+  </div>
+
+  <div id="content"></div>
+</main>
+
+<footer class="footer">
+  <span>© <b>Saifis Works</b> · 2026</span>
+  <span><b>Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const topBar = document.getElementById('topBar');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('wc.theme', next);
+  });
+  window.addEventListener('scroll', () => {
+    topBar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
+
+<script>
+(function(){
+  const el = document.getElementById('content');
+  const filterBar = document.getElementById('filterBar');
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  // ─── ALL STADIUMS DATA WITH MATCHES ───
+  const STADIUMS = {
+    'mexico-city-stadium': {
+      id: 'mexico-city-stadium',
+      stadium: 'Estadio Azteca',
+      city: 'Mexico City',
+      country: 'Mexico',
+      countryColor: '#006341',
+      capacity: 83000,
+      matches: [
+        { n: 1, date: '2026-06-11T16:00:00Z', kick: '16:00', home: 'Mexico', away: 'South Africa', group: 'A' },
+        { n: 17, date: '2026-06-17T20:00:00Z', kick: '20:00', home: 'Mexico', away: 'Senegal', group: 'A' },
+        { n: 33, date: '2026-06-23T16:00:00Z', kick: '16:00', home: 'South Africa', away: 'Senegal', group: 'A' }
+      ]
+    },
+    'guadalajara-stadium': {
+      id: 'guadalajara-stadium',
+      stadium: 'Estadio Akron',
+      city: 'Guadalajara',
+      country: 'Mexico',
+      countryColor: '#006341',
+      capacity: 46000,
+      matches: [
+        { n: 2, date: '2026-06-12T14:00:00Z', kick: '14:00', home: 'France', away: 'Australia', group: 'B' },
+        { n: 18, date: '2026-06-18T18:00:00Z', kick: '18:00', home: 'France', away: 'Uzbekistan', group: 'B' },
+        { n: 34, date: '2026-06-24T14:00:00Z', kick: '14:00', home: 'Australia', away: 'Uzbekistan', group: 'B' }
+      ]
+    },
+    'monterrey-stadium': {
+      id: 'monterrey-stadium',
+      stadium: 'Estadio BBVA',
+      city: 'Monterrey',
+      country: 'Mexico',
+      countryColor: '#006341',
+      capacity: 53500,
+      matches: [
+        { n: 3, date: '2026-06-12T18:00:00Z', kick: '18:00', home: 'Argentina', away: 'Saudi Arabia', group: 'C' },
+        { n: 19, date: '2026-06-18T22:00:00Z', kick: '22:00', home: 'Argentina', away: 'Curaçao', group: 'C' },
+        { n: 35, date: '2026-06-24T18:00:00Z', kick: '18:00', home: 'Saudi Arabia', away: 'Curaçao', group: 'C' }
+      ]
+    },
+    'dallas-stadium': {
+      id: 'dallas-stadium',
+      stadium: "AT&T Stadium",
+      city: 'Dallas',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 80000,
+      matches: [
+        { n: 4, date: '2026-06-13T20:00:00Z', kick: '20:00', home: 'USA', away: 'Wales', group: 'D' },
+        { n: 20, date: '2026-06-19T20:00:00Z', kick: '20:00', home: 'USA', away: 'Czechia', group: 'D' },
+        { n: 36, date: '2026-06-25T20:00:00Z', kick: '20:00', home: 'Wales', away: 'Czechia', group: 'D' }
+      ]
+    },
+    'atlanta-stadium': {
+      id: 'atlanta-stadium',
+      stadium: 'Mercedes-Benz Stadium',
+      city: 'Atlanta',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 71000,
+      matches: [
+        { n: 5, date: '2026-06-14T14:00:00Z', kick: '14:00', home: 'Brazil', away: 'Serbia', group: 'E' },
+        { n: 21, date: '2026-06-19T16:00:00Z', kick: '16:00', home: 'Brazil', away: 'Cabo Verde', group: 'E' },
+        { n: 37, date: '2026-06-25T16:00:00Z', kick: '16:00', home: 'Serbia', away: 'Cabo Verde', group: 'E' }
+      ]
+    },
+    'houston-stadium': {
+      id: 'houston-stadium',
+      stadium: 'NRG Stadium',
+      city: 'Houston',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 72000,
+      matches: [
+        { n: 6, date: '2026-06-14T18:00:00Z', kick: '18:00', home: 'Canada', away: 'Belgium', group: 'F' },
+        { n: 22, date: '2026-06-20T14:00:00Z', kick: '14:00', home: 'Canada', away: 'Norway', group: 'F' },
+        { n: 38, date: '2026-06-26T14:00:00Z', kick: '14:00', home: 'Belgium', away: 'Norway', group: 'F' }
+      ]
+    },
+    'kansas-city-stadium': {
+      id: 'kansas-city-stadium',
+      stadium: 'Arrowhead Stadium',
+      city: 'Kansas City',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 76000,
+      matches: [
+        { n: 7, date: '2026-06-15T20:00:00Z', kick: '20:00', home: 'England', away: 'Iran', group: 'G' },
+        { n: 23, date: '2026-06-21T20:00:00Z', kick: '20:00', home: 'England', away: 'Paraguay', group: 'G' },
+        { n: 39, date: '2026-06-27T20:00:00Z', kick: '20:00', home: 'Iran', away: 'Paraguay', group: 'G' }
+      ]
+    },
+    'philadelphia-stadium': {
+      id: 'philadelphia-stadium',
+      stadium: 'Lincoln Financial Field',
+      city: 'Philadelphia',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 69000,
+      matches: [
+        { n: 8, date: '2026-06-16T14:00:00Z', kick: '14:00', home: 'Spain', away: 'Costa Rica', group: 'H' },
+        { n: 24, date: '2026-06-22T14:00:00Z', kick: '14:00', home: 'Spain', away: "Côte d'Ivoire", group: 'H' },
+        { n: 40, date: '2026-06-28T14:00:00Z', kick: '14:00', home: 'Costa Rica', away: "Côte d'Ivoire", group: 'H' }
+      ]
+    },
+    'miami-stadium': {
+      id: 'miami-stadium',
+      stadium: 'Hard Rock Stadium',
+      city: 'Miami',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 65000,
+      matches: [
+        { n: 9, date: '2026-06-16T18:00:00Z', kick: '18:00', home: 'Germany', away: 'Japan', group: 'I' },
+        { n: 25, date: '2026-06-22T18:00:00Z', kick: '18:00', home: 'Germany', away: 'Curaçao', group: 'I' },
+        { n: 41, date: '2026-06-28T18:00:00Z', kick: '18:00', home: 'Japan', away: 'Curaçao', group: 'I' }
+      ]
+    },
+    'seattle-stadium': {
+      id: 'seattle-stadium',
+      stadium: 'Lumen Field',
+      city: 'Seattle',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 68000,
+      matches: [
+        { n: 10, date: '2026-06-17T14:00:00Z', kick: '14:00', home: 'Italy', away: 'Ecuador', group: 'J' },
+        { n: 26, date: '2026-06-23T14:00:00Z', kick: '14:00', home: 'Italy', away: 'Jordan', group: 'J' },
+        { n: 42, date: '2026-06-29T14:00:00Z', kick: '14:00', home: 'Ecuador', away: 'Jordan', group: 'J' }
+      ]
+    },
+    'sf-bay-stadium': {
+      id: 'sf-bay-stadium',
+      stadium: "Levi's Stadium",
+      city: 'Santa Clara',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 68500,
+      matches: [
+        { n: 11, date: '2026-06-17T18:00:00Z', kick: '18:00', home: 'Netherlands', away: 'Qatar', group: 'K' },
+        { n: 27, date: '2026-06-23T18:00:00Z', kick: '18:00', home: 'Netherlands', away: 'Uzbekistan', group: 'K' },
+        { n: 43, date: '2026-06-29T18:00:00Z', kick: '18:00', home: 'Qatar', away: 'Uzbekistan', group: 'K' }
+      ]
+    },
+    'boston-stadium': {
+      id: 'boston-stadium',
+      stadium: 'Gillette Stadium',
+      city: 'Boston',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 65000,
+      matches: [
+        { n: 12, date: '2026-06-18T14:00:00Z', kick: '14:00', home: 'Portugal', away: 'Ghana', group: 'L' },
+        { n: 28, date: '2026-06-24T14:00:00Z', kick: '14:00', home: 'Portugal', away: 'Tunisia', group: 'L' },
+        { n: 44, date: '2026-06-30T14:00:00Z', kick: '14:00', home: 'Ghana', away: 'Tunisia', group: 'L' }
+      ]
+    },
+    'la-stadium': {
+      id: 'la-stadium',
+      stadium: 'SoFi Stadium',
+      city: 'Los Angeles',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 70000,
+      matches: [
+        { n: 13, date: '2026-06-19T14:00:00Z', kick: '14:00', home: 'Switzerland', away: 'Cameroon', group: 'A' },
+        { n: 29, date: '2026-06-25T14:00:00Z', kick: '14:00', home: 'Switzerland', away: 'South Africa', group: 'A' },
+        { n: 45, date: '2026-07-01T14:00:00Z', kick: '14:00', home: 'Cameroon', away: 'Senegal', group: 'A' }
+      ]
+    },
+    'new-york-new-jersey-stadium': {
+      id: 'new-york-new-jersey-stadium',
+      stadium: 'MetLife Stadium',
+      city: 'East Rutherford',
+      country: 'USA',
+      countryColor: '#1a3a6b',
+      capacity: 82500,
+      matches: [
+        { n: 14, date: '2026-06-20T18:00:00Z', kick: '18:00', home: 'Croatia', away: 'Australia', group: 'B' },
+        { n: 30, date: '2026-06-26T18:00:00Z', kick: '18:00', home: 'Croatia', away: 'Uzbekistan', group: 'B' },
+        { n: 46, date: '2026-07-02T18:00:00Z', kick: '18:00', home: 'Australia', away: 'France', group: 'B' },
+        { n: 101, date: '2026-07-19T20:00:00Z', kick: '20:00', home: 'TBD', away: 'TBD', group: 'Final' }
+      ]
+    },
+    'toronto-stadium': {
+      id: 'toronto-stadium',
+      stadium: 'BMO Field',
+      city: 'Toronto',
+      country: 'Canada',
+      countryColor: '#d90000',
+      capacity: 45000,
+      matches: [
+        { n: 15, date: '2026-06-21T14:00:00Z', kick: '14:00', home: 'Uruguay', away: 'South Korea', group: 'C' },
+        { n: 31, date: '2026-06-27T14:00:00Z', kick: '14:00', home: 'Uruguay', away: 'Curaçao', group: 'C' },
+        { n: 47, date: '2026-07-03T14:00:00Z', kick: '14:00', home: 'South Korea', away: 'Saudi Arabia', group: 'C' }
+      ]
+    },
+    'vancouver-stadium': {
+      id: 'vancouver-stadium',
+      stadium: 'BC Place',
+      city: 'Vancouver',
+      country: 'Canada',
+      countryColor: '#d90000',
+      capacity: 54500,
+      matches: [
+        { n: 16, date: '2026-06-22T22:00:00Z', kick: '22:00', home: 'Sweden', away: 'Nigeria', group: 'D' },
+        { n: 32, date: '2026-06-28T22:00:00Z', kick: '22:00', home: 'Sweden', away: 'Czechia', group: 'D' },
+        { n: 48, date: '2026-07-04T22:00:00Z', kick: '22:00', home: 'Nigeria', away: 'Wales', group: 'D' }
+      ]
+    }
+  };
+
+  // ─── RENDER ───
+  function monthDay(d){
+    const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const dt = new Date(d);
+    return `${m[dt.getUTCMonth()]} ${dt.getUTCDate()}`;
+  }
+
+  function dayOfWeek(d){
+    const w = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    return w[new Date(d).getUTCDay()];
+  }
+
+  function renderStadium(countryFilter) {
+    // Find stadium by ID (always show the requested stadium)
+    const stadium = STADIUMS[id];
+    
+    if(!stadium){
+      el.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🏟️</div>
+          <h3>Stadium not found</h3>
+          <p style="color:var(--ink2);margin-top:8px">The stadium you're looking for doesn't exist.</p>
+          <a href="./stadiums.html" style="display:inline-block;margin-top:20px;font-weight:700;color:var(--accent2);border-bottom:1.5px solid var(--accent2);padding-bottom:2px">← Back to stadiums</a>
+        </div>
+      `;
+      return;
+    }
+
+    const matches = stadium.matches || [];
+    const countryFlags = { 'Mexico':'🇲🇽', 'USA':'🇺🇸', 'Canada':'🇨🇦' };
+
+    // Filter matches by country if not "all"
+    let filteredMatches = matches;
+    if(countryFilter !== 'all'){
+      // Get all stadium IDs for that country
+      const countryStadiumIds = Object.keys(STADIUMS).filter(key => STADIUMS[key].country === countryFilter);
+      // If current stadium is in that country, show its matches, else show empty
+      if(countryStadiumIds.includes(id)){
+        filteredMatches = matches;
+      } else {
+        filteredMatches = [];
+      }
+    }
+
+    let matchHTML = '';
+    if(filteredMatches.length === 0){
+      matchHTML = `
+        <div class="empty-state">
+          <div class="icon">📅</div>
+          <h3>No matches in this country</h3>
+          <p style="color:var(--ink2);margin-top:8px">This stadium doesn't have matches in the selected country.</p>
+        </div>
+      `;
+    } else {
+      matchHTML = filteredMatches.map(m => {
+        const isFinal = m.group === 'Final';
+        return `
+          <a class="match-row" href="./match.html?n=${m.n}">
+            <span class="date">
+              <b>${monthDay(m.date)}</b>
+              ${dayOfWeek(m.date)} · ${m.kick || ''}
+            </span>
+            <span class="team">${m.home}</span>
+            <span class="score">vs</span>
+            <span class="team away">${m.away}</span>
+            <span class="venue">
+              <b>${isFinal ? '🏆 Final' : 'Group '+m.group}</b>
+            </span>
+          </a>
+        `;
+      }).join('');
+    }
+
+    el.innerHTML = `
+      <div class="stadium-hero">
+        <img src="./stadiums/${id}.webp" alt="${stadium.stadium}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22300%22%3E%3Crect width=%22600%22 height=%22300%22 fill=%22%23E5D7C6%22/%3E%3Ctext x=%22300%22 y=%22160%22 text-anchor=%22middle%22 fill=%22%237a6d5e%22 font-size=%2228%22 font-family=%22sans-serif%22%3E${stadium.stadium}%3C/text%3E%3C/svg%3E'">
+        <div class="info">
+          <div class="country-badge" style="background:${stadium.countryColor}">${countryFlags[stadium.country] || '🏟️'} ${stadium.country}</div>
+          <h1>${stadium.stadium}</h1>
+          <div class="city">📍 ${stadium.city}</div>
+          <div class="meta">
+            <span>🏟️ <b>${stadium.capacity.toLocaleString()}</b> seats</span>
+            <span>📅 <b>${filteredMatches.length}</b> matches</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        All Matches
+        <span class="count">(${filteredMatches.length} fixtures)</span>
+      </div>
+
+      <div class="match-list">
+        ${matchHTML}
+      </div>
+    `;
+  }
+
+  // ─── FILTER CLICK ───
+  filterBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    filterBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderStadium(btn.dataset.country);
+  });
+
+  // ─── INITIAL RENDER ───
+  if(id && STADIUMS[id]){
+    renderStadium('all');
+  } else {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">🏟️</div>
+        <h3>Stadium not found</h3>
+        <p style="color:var(--ink2);margin-top:8px">The stadium you're looking for doesn't exist.</p>
+        <a href="./stadiums.html" style="display:inline-block;margin-top:20px;font-weight:700;color:var(--accent2);border-bottom:1.5px solid var(--accent2);padding-bottom:2px">← Back to stadiums</a>
+      </div>
+    `;
+  }
+})();
+</script>
+
+<script src="./mobile-nav.js"></script>
+</body>
+</html>

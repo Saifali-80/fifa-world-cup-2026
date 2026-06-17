@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>World Cup 2026 · every team, every stadium, every match</title>
+  <meta name="description" content="Forty-eight teams. Sixteen cities. Three countries. The 2026 World Cup, told in clay and data.">
+  <meta property="og:title" content="World Cup 2026">
+  <meta property="og:description" content="Forty-eight nations. Sixteen cities. Three countries. June 11 to July 19.">
+  <meta property="og:image" content="https://saifis.works/data-viz/world-cup-2026/og.jpg">
+  <meta property="og:url" content="https://saifis.works/data-viz/world-cup-2026">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="saifis.works">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="World Cup 2026">
+  <meta name="twitter:description" content="Forty-eight nations. Sixteen cities. Three countries. June 11 to July 19.">
+  <meta name="twitter:image" content="https://saifis.works/data-viz/world-cup-2026/og.jpg">
+  <link rel="canonical" href="https://saifis.works/data-viz/world-cup-2026">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FAF7F3;
+    --bg2:#F2EDE4;
+    --line:#E5D7C6;
+    --accent:#D9A299;
+    --accent2:#C9883A;
+    --ink:#1a1410;
+    --ink2:#7a6d5e;
+    --ink3:#a89a87;
+    --card-bg:#FFFFFF;
+    --card-border:rgba(26,20,16,.08);
+    --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+    --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+    --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+    --serif:'Playfair Display',Georgia,serif;
+    --ease:cubic-bezier(0.85,0,0.15,1);
+    --ease-out:cubic-bezier(0.22,1,0.36,1);
+  }
+  html.dark{
+    --bg:#1a1410;
+    --bg2:#221c16;
+    --line:#3a302a;
+    --ink:#f4ede2;
+    --ink2:#a89c8b;
+    --ink3:#6b6358;
+    --card-bg:#231d17;
+    --card-border:rgba(244,237,226,.07);
+    --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+    --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+  img{display:block;max-width:100%;-webkit-user-drag:none;user-select:none}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:var(--bg);text-shadow:none}
+
+  /* ─── TOP CHROME ─── */
+  .top-bar{
+    position:fixed;top:0;left:0;right:0;height:72px;z-index:33;
+    background:var(--bg);
+    border-bottom:1px solid transparent;
+    transition:background .5s var(--ease), border-color .3s;
+  }
+  .top-bar.scrolled{ border-color:var(--line); }
+  .brand-logo{
+    position:fixed;top:26px;left:36px;z-index:36;
+    font-family:var(--serif);font-weight:800;font-size:15px;letter-spacing:-.01em;color:var(--ink);
+    opacity:0;pointer-events:none;
+    transition:opacity .55s var(--ease),color .5s var(--ease);
+  }
+  .brand-logo.visible{opacity:1;pointer-events:auto}
+  .theme-toggle{
+    position:fixed;top:24px;right:36px;z-index:38;
+    width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--card-bg);border:1px solid var(--card-border);
+    border-radius:50%;cursor:pointer;color:var(--ink2);
+    transition:color .35s var(--ease), background .35s, border-color .35s;
+  }
+  .theme-toggle:hover{color:var(--ink); background:var(--bg2);}
+  .theme-toggle svg{width:15px;height:15px}
+  .theme-toggle .icon-sun{display:none}
+  html.dark .theme-toggle .icon-sun{display:block}
+  html.dark .theme-toggle .icon-moon{display:none}
+  .top-nav{
+    position:fixed;top:28px;right:88px;z-index:35;
+    display:flex;gap:4px;
+    opacity:0;transition:opacity .8s var(--ease) .3s,color .5s var(--ease);
+  }
+  .top-nav.visible{opacity:1}
+  .top-nav a{
+    color:var(--ink2);
+    font-size:12px;font-weight:600;letter-spacing:.06em;
+    padding:5px 12px;border-radius:20px;
+    transition:color .25s, background .25s;
+  }
+  .top-nav a:hover{color:var(--ink);background:var(--bg2);}
+
+  /* ─── HERO ─── */
+  .hero-wc-text{
+    position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    font-family:var(--serif);
+    font-weight:900;font-size:clamp(88px,12vw,200px);
+    letter-spacing:-.04em;line-height:.85;color:var(--ink);
+    white-space:nowrap;
+    z-index:5;pointer-events:none;
+    opacity:.06;
+  }
+  .hero{
+    position:relative;height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse 70% 60% at 50% 40%, rgba(217,162,153,.13) 0%, transparent 65%);
+    pointer-events:none;z-index:1;
+  }
+  .hero-trophy{
+    position:relative;z-index:20;
+    width:clamp(360px,46vw,660px);
+    will-change:transform;
+    animation:trophy-float 6s ease-in-out infinite;
+    filter:drop-shadow(0 40px 80px rgba(26,20,16,.15));
+  }
+  @keyframes trophy-float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-16px)}
+  }
+  .hero-trophy img{width:100%;height:auto}
+  .hero-scroll-cue{
+    position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+    width:18px;height:18px;color:var(--ink2);
+    animation:scroll-bob 2.6s var(--ease) infinite;
+    opacity:.6;
+  }
+  @keyframes scroll-bob{
+    0%,100%{transform:translateX(-50%) translateY(0);opacity:.4}
+    50%{transform:translateX(-50%) translateY(8px);opacity:.8}
+  }
+
+  /* ─── COUNTDOWN BANNER ─── */
+  .countdown{
+    border-top:1px solid var(--line);
+    padding:28px clamp(20px,3vw,40px);
+    display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+    max-width:1280px;margin:0 auto;
+    font-variant-numeric:tabular-nums;
+  }
+  .countdown .left{
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--ink3);
+  }
+  .countdown .left b{color:var(--ink);font-weight:700}
+  .countdown .ticker{
+    display:flex;align-items:baseline;gap:14px;
+    font-weight:700;color:var(--ink);
+  }
+  .countdown .ticker .num{font-size:clamp(22px,2.4vw,32px);letter-spacing:-.015em;line-height:1;font-family:var(--serif)}
+  .countdown .ticker .unit{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:600;margin-right:8px}
+
+  /* ─── SECTION FRAME ─── */
+  main > section{
+    max-width:1280px;margin:0 auto;
+    padding:96px clamp(20px,3vw,40px);
+  }
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
+  .reveal.on{opacity:1;transform:translateY(0)}
+  .story-sub{
+    font-size:13px;color:var(--ink2);font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;margin-bottom:16px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .story-sub::before{content:'';width:24px;height:1.5px;background:var(--accent);display:inline-block}
+  .story-sub b{color:var(--ink);font-weight:700}
+  .story-sub .stars{color:var(--accent);letter-spacing:2px}
+
+  /* ─── STORY ─── */
+  .story{
+    display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(48px,6vw,100px);
+  }
+  .story.flip{direction:rtl}
+  .story.flip > *{direction:ltr}
+  .story-clay{
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .story-clay::after{
+    content:'';
+    position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);
+    width:60%;height:32px;
+    background:radial-gradient(ellipse at center, rgba(26,20,16,.12) 0%, transparent 70%);
+    filter:blur(8px);
+    pointer-events:none;
+  }
+  .story-clay img{
+    width:100%;max-width:500px;height:auto;
+    transition:transform .8s var(--ease-out);
+  }
+  .story-clay:hover img{transform:translateY(-6px) scale(1.02)}
+  .story-text h2{
+    font-family:var(--serif);
+    font-size:clamp(36px,4.2vw,64px);font-weight:800;letter-spacing:-.02em;line-height:1.05;color:var(--ink);
+    margin-bottom:18px;max-width:14ch;
+  }
+  .story-text p{
+    font-size:clamp(16px,1.3vw,19px);color:var(--ink2);line-height:1.65;max-width:44ch;
+  }
+  .story-text p b{color:var(--ink);font-weight:600}
+  .story-text .cta{
+    display:inline-flex;align-items:center;gap:8px;margin-top:28px;
+    font-size:13px;font-weight:700;letter-spacing:.04em;
+    padding:10px 20px;border-radius:24px;
+    background:var(--ink);color:var(--bg);
+    transition:background .3s var(--ease), gap .3s, transform .3s;
+  }
+  .story-text .cta:hover{background:var(--accent2);gap:14px;transform:translateY(-1px)}
+
+  /* ─── NUMBERS STRIP ─── */
+  .numbers-sec{padding:56px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+  .nums-cell{
+    display:flex;flex-direction:column;gap:8px;
+    padding:32px 32px;
+    background:var(--bg);
+    transition:background .25s;
+  }
+  .nums-cell:hover{background:var(--bg2)}
+  .nums-cell .v{
+    font-family:var(--serif);
+    font-weight:800;font-size:clamp(40px,5vw,76px);letter-spacing:-.03em;color:var(--ink);
+    font-variant-numeric:tabular-nums;line-height:1;
+  }
+  .nums-cell .l{font-size:13px;color:var(--ink2);font-weight:500;letter-spacing:-.005em}
+
+  /* ─── HOSTS ─── */
+  .hosts-sec{padding:120px clamp(20px,3vw,40px) !important}
+  .hosts-h{
+    font-family:var(--serif);
+    font-size:clamp(32px,3.2vw,50px);font-weight:800;letter-spacing:-.025em;line-height:1.05;color:var(--ink);
+    margin-bottom:56px;max-width:18ch;
+  }
+  .hosts{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .host-card{
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:20px;
+    padding:40px 28px 32px;
+    gap:0;
+    transition:transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+    box-shadow:var(--card-shadow);
+  }
+  .host-card:hover{
+    transform:translateY(-8px);
+    box-shadow:var(--card-shadow-hover);
+  }
+  .host-icon{width:100%;height:220px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:20px}
+  .host-icon img{max-height:220px;width:auto;height:auto;transition:transform .6s var(--ease-out)}
+  .host-card:hover .host-icon img{transform:scale(1.05) translateY(-4px)}
+  .host-card .nm{
+    font-family:var(--serif);
+    font-size:clamp(20px,1.8vw,26px);font-weight:800;letter-spacing:-.015em;color:var(--ink);
+    margin-bottom:6px;
+  }
+  .host-card .ct{
+    font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .host-card .meta{font-size:14px;color:var(--ink2);line-height:1.6;max-width:28ch}
+  .host-card .meta b{color:var(--ink);font-weight:600}
+
+  /* ─── GOODBYE ─── */
+  .goodbye-sec{padding:120px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .goodbye-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px;flex-wrap:wrap}
+  .goodbye-head h2{
+    font-family:var(--serif);
+    font-size:clamp(40px,5vw,80px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);max-width:14ch;
+  }
+  .goodbye-head p{font-size:15px;color:var(--ink2);max-width:36ch;line-height:1.6;margin-top:16px}
+  .busts{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .bust{
+    display:flex;flex-direction:column;align-items:center;gap:12px;color:inherit;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:24px 16px 20px;
+    transition:transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+    box-shadow:var(--card-shadow);
+  }
+  .bust:hover{transform:translateY(-8px);box-shadow:var(--card-shadow-hover)}
+  .bust img{width:100%;max-width:180px;aspect-ratio:1/1;object-fit:contain;transition:transform .5s var(--ease-out)}
+  .bust:hover img{transform:scale(1.06)}
+  .bust .nm{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.005em;text-align:center;line-height:1.3}
+  .bust .age{font-size:11px;color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+
+  /* ─── MASCOTS ─── */
+  .mascots-sec{padding:120px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .mascots-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px;flex-wrap:wrap}
+  .mascots-head h2{
+    font-family:var(--serif);
+    font-size:clamp(40px,5vw,80px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);max-width:14ch
+  }
+  .mascots-head p{font-size:15px;color:var(--ink2);max-width:38ch;line-height:1.6;margin-top:16px}
+  .mascots{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .mascot-card{
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:20px;
+    padding:40px 24px 32px;
+    gap:0;
+    transition:transform .55s var(--ease-out), box-shadow .55s var(--ease-out);
+    box-shadow:var(--card-shadow);
+    position:relative;overflow:hidden;
+  }
+  .mascot-card::before{
+    content:'';
+    position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    opacity:0;transition:opacity .4s;
+  }
+  .mascot-card:hover::before{opacity:1}
+  .mascot-card:hover{transform:translateY(-10px);box-shadow:var(--card-shadow-hover)}
+  .mascot-card img{
+    width:100%;max-width:240px;height:auto;
+    transition:transform .7s var(--ease-out);
+    margin-bottom:20px;
+  }
+  .mascot-card:hover img{transform:scale(1.06) translateY(-4px)}
+  .mascot-card .nm{
+    font-family:var(--serif);
+    font-size:clamp(22px,2vw,30px);font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1;
+    margin-bottom:6px;
+  }
+  .mascot-card .role{font-size:13px;color:var(--ink2);font-weight:500}
+  .mascot-card .role b{color:var(--ink);font-weight:700}
+
+  /* ─── DEBUTANTS ─── */
+  .debut-sec{padding:120px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .debut-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px;flex-wrap:wrap}
+  .debut-head h2{
+    font-family:var(--serif);
+    font-size:clamp(40px,5vw,80px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);max-width:14ch
+  }
+  .debut-head p{font-size:15px;color:var(--ink2);max-width:38ch;line-height:1.6;margin-top:16px}
+  .debutants{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .debutant{
+    display:flex;flex-direction:column;align-items:center;gap:12px;color:inherit;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:28px 16px 22px;
+    transition:transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+    box-shadow:var(--card-shadow);
+    position:relative;
+  }
+  .debutant::after{
+    content:'First Cup';
+    position:absolute;top:12px;right:12px;
+    font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 8px;border-radius:10px;
+    background:rgba(217,162,153,.15);color:var(--accent);
+    border:1px solid rgba(217,162,153,.25);
+  }
+  .debutant:hover{transform:translateY(-6px);box-shadow:var(--card-shadow-hover)}
+  .debutant img{width:100%;max-width:180px;aspect-ratio:1/1;object-fit:contain;transition:transform .5s var(--ease-out)}
+  .debutant:hover img{transform:scale(1.05)}
+  .debutant .nm{font-size:15px;font-weight:700;color:var(--ink)}
+  .debutant .meta{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+  /* ─── FORMAT ─── */
+  .format-sec{padding:120px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .format{display:grid;grid-template-columns:1fr 1.4fr;gap:72px;align-items:center}
+  .format-text h2{
+    font-family:var(--serif);
+    font-size:clamp(36px,4.4vw,68px);font-weight:800;letter-spacing:-.03em;line-height:1.02;color:var(--ink);
+    margin-bottom:20px;max-width:12ch
+  }
+  .format-text p{font-size:16px;color:var(--ink2);line-height:1.65;max-width:38ch;margin-bottom:14px}
+  .format-text p b{color:var(--ink);font-weight:600}
+  .funnel{display:flex;flex-direction:column;gap:10px;width:100%}
+  .funnel-row{
+    display:grid;grid-template-columns:180px 1fr 64px;align-items:center;gap:20px;
+    padding:14px 20px;
+    border-radius:12px;
+    transition:background .3s, transform .3s var(--ease-out);
+  }
+  .funnel-row:hover{background:var(--bg2);transform:translateX(4px)}
+  .funnel-row .label{
+    font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.01em;
+    display:flex;align-items:center;gap:8px;
+  }
+  .funnel-row .label .new-tag{
+    font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border-radius:6px;
+    background:var(--accent);color:var(--bg);
+  }
+  .funnel-row .bar-track{
+    height:8px;background:var(--line);border-radius:4px;overflow:hidden;
+  }
+  .funnel-row .bar{
+    height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+    border-radius:4px;
+    transition:width .6s var(--ease-out);
+  }
+  .funnel-row .num{
+    font-family:var(--serif);
+    font-weight:800;color:var(--ink);font-size:24px;text-align:right;letter-spacing:-.02em;line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .funnel-row.champ .bar{background:var(--ink)}
+  .funnel-row.champ .num{color:var(--accent);font-size:30px}
+  .funnel-row.champ .label{font-weight:800}
+  .funnel-row.champ{background:var(--bg2)}
+
+  /* ─── WHAT'S NEXT ─── */
+  .next-sec{padding:120px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .next-sec .head{
+    display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px;flex-wrap:wrap;
+  }
+  .next-sec h2{
+    font-family:var(--serif);
+    font-size:clamp(40px,5vw,80px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);
+    max-width:18ch;
+  }
+  .next-sec .head p{font-size:15px;color:var(--ink2);max-width:36ch;line-height:1.6;margin-top:16px}
+  .next-feed{display:flex;flex-direction:column;gap:2px}
+  .next-row{
+    display:grid;grid-template-columns:90px 56px 1fr 36px 1fr 56px 200px 24px;
+    gap:16px;align-items:center;
+    padding:18px 16px;
+    border-radius:12px;
+    color:inherit;
+    transition:background .25s;
+  }
+  .next-row:hover{background:var(--bg2)}
+  .next-row .date{font-size:13px;color:var(--ink2);font-weight:500;font-variant-numeric:tabular-nums}
+  .next-row .date b{color:var(--ink);font-weight:700;font-size:15px;display:block;letter-spacing:-.005em}
+  .next-row .clay{width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+  .next-row .clay img{width:100%;height:100%;object-fit:contain}
+  .next-row .nm{
+    font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.005em;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .next-row .away{text-align:right}
+  .next-row .vs{
+    font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink3);text-align:center;
+  }
+  .next-row .ven{font-size:13px;color:var(--ink2);line-height:1.4}
+  .next-row .ven b{color:var(--ink);font-weight:600;display:block}
+  .next-row .arrow{
+    font-size:16px;color:var(--ink3);text-align:right;
+    transition:color .25s, transform .25s;
+  }
+  .next-row:hover .arrow{color:var(--accent);transform:translateX(3px)}
+  .next-row .sc{font-size:16px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;text-align:center;white-space:nowrap}
+  .next-row .sc .pen{display:block;font-size:9px;font-weight:600;color:var(--ink3);letter-spacing:.02em;margin-top:1px}
+  .next-row .date .ft{color:var(--ink3);font-weight:600;font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+  .next-row .date .liveflag{color:#1a9c5b;font-weight:800;font-size:11px;letter-spacing:.08em;display:inline-flex;align-items:center;gap:5px}
+  html.dark .next-row .date .liveflag{color:#4fd089}
+  .next-row .date .liveflag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;animation:nlpulse 1.4s var(--ease) infinite}
+  @keyframes nlpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.8)}}
+  .next-row .nm.lose{color:var(--ink3);font-weight:600}
+  .next-all{
+    display:inline-flex;align-items:center;gap:8px;margin-top:32px;
+    font-size:13px;font-weight:700;letter-spacing:.04em;
+    padding:12px 24px;border-radius:24px;
+    background:var(--ink);color:var(--bg);
+    transition:background .3s, gap .3s, transform .3s;
+  }
+  .next-all:hover{background:var(--accent2);gap:14px;transform:translateY(-1px)}
+
+  @media (max-width:900px){
+    .next-row{grid-template-columns:60px 44px 1fr 24px 1fr 44px;gap:10px}
+    .next-row .ven,.next-row .arrow{display:none}
+    .next-row .nm{font-size:14px}
+  }
+
+  /* ─── CLOSER ─── */
+  .closer{text-align:center;padding:140px clamp(20px,3vw,40px) !important;border-top:1px solid var(--line)}
+  .closer h2{
+    font-family:var(--serif);
+    font-size:clamp(40px,5vw,80px);font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-bottom:20px;line-height:1
+  }
+  .closer h2 em{font-style:italic;color:var(--accent)}
+  .closer p{font-size:clamp(15px,1.1vw,18px);color:var(--ink2);max-width:48ch;margin:0 auto 40px;line-height:1.65}
+  .closer-form{
+    display:flex;align-items:stretch;gap:0;max-width:440px;margin:0 auto;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    border-radius:28px;
+    padding:6px 6px 6px 20px;
+    box-shadow:var(--card-shadow);
+  }
+  .closer-form input{
+    flex:1;background:transparent;border:none;
+    font:17px var(--sans);color:var(--ink);outline:none;padding:8px 0;
+  }
+  .closer-form input::placeholder{color:var(--ink3)}
+  .closer-form button{
+    background:var(--ink);color:var(--bg);border:none;cursor:pointer;
+    font:700 14px var(--sans);
+    padding:10px 22px;border-radius:22px;
+    transition:background .3s;
+  }
+  .closer-form button:hover{background:var(--accent2)}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:32px clamp(20px,3vw,40px);
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+    max-width:1280px;margin:0 auto;
+  }
+  footer b{color:var(--ink);font-weight:600}
+
+  @media (max-width:900px){
+    .countdown{flex-direction:column;align-items:flex-start;gap:14px}
+    .story{grid-template-columns:1fr;gap:32px}
+    .story.flip{direction:ltr}
+    .nums{grid-template-columns:repeat(2,1fr)}
+    .hosts{grid-template-columns:1fr;gap:24px}
+    .busts{grid-template-columns:repeat(2,1fr)}
+    .debutants{grid-template-columns:repeat(2,1fr)}
+    .format{grid-template-columns:1fr;gap:40px}
+    .mascots{grid-template-columns:1fr;gap:20px}
+  }
+
+  /* ─── DRAMA EFFECTS ─── */
+
+  /* Base transition for all cards */
+  .host-card,
+  .mascot-card,
+  .bust,
+  .debutant {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    will-change: transform;
+  }
+
+  /* Hover: 3D Lift + Glow */
+  .host-card:hover,
+  .mascot-card:hover,
+  .bust:hover,
+  .debutant:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 24px 64px rgba(217, 162, 153, 0.2);
+    border-color: var(--accent);
+  }
+
+  /* Glow Ring on Hover - for cards with border */
+  .host-card::after,
+  .mascot-card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--accent), transparent, var(--accent2), transparent);
+    background-size: 300% 300%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    animation: borderGlow 3s ease infinite;
+    pointer-events: none;
+  }
+
+  .host-card:hover::after,
+  .mascot-card:hover::after {
+    opacity: 1;
+  }
+
+  @keyframes borderGlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Staggered Entrance */
+  .host-card,
+  .mascot-card,
+  .bust,
+  .debutant {
+    opacity: 0;
+    animation: slideUpFade 0.6s ease forwards;
+  }
+
+  .host-card:nth-child(1),
+  .mascot-card:nth-child(1),
+  .bust:nth-child(1),
+  .debutant:nth-child(1) { animation-delay: 0.05s; }
+
+  .host-card:nth-child(2),
+  .mascot-card:nth-child(2),
+  .bust:nth-child(2),
+  .debutant:nth-child(2) { animation-delay: 0.10s; }
+
+  .host-card:nth-child(3),
+  .mascot-card:nth-child(3),
+  .bust:nth-child(3),
+  .debutant:nth-child(3) { animation-delay: 0.15s; }
+
+  .host-card:nth-child(4),
+  .bust:nth-child(4),
+  .debutant:nth-child(4) { animation-delay: 0.20s; }
+
+  .bust:nth-child(5) { animation-delay: 0.25s; }
+
+  @keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<script>
+try { sessionStorage.setItem('wc.nav', JSON.stringify([{label:'Home', url:'./index.html'}])); } catch(e){}
+</script>
+
+<div class="top-bar" id="topBar"></div>
+
+<a class="brand-logo" id="brandLogo" href="./">World Cup 2026</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html">Stadiums</a>
+  <a href="./teams.html">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html">Standings</a>
+</nav>
+
+<section class="hero">
+  <h1 class="hero-wc-text">WORLD CUP</h1>
+  <div class="hero-trophy">
+    <img src="./trophy/cup-trophy.webp" alt="World Cup trophy">
+  </div>
+  <svg class="hero-scroll-cue" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7 L9 13 L15 7"/></svg>
+</section>
+
+<main>
+  <!-- 1. Opening match -->
+  <section>
+    <div class="story reveal">
+      <div class="story-clay"><img src="./stadiums/mexico-city-stadium.webp" alt="Estadio Azteca"></div>
+      <div class="story-text">
+        <div class="story-sub"><b>Jun 11</b> · Mexico v South Africa</div>
+        <h2>The Cup begins at Azteca.</h2>
+        <p>Mexico open the tournament at <b>Estadio Azteca</b>, 7,382 feet up, the only stadium ever to host three different World Cups. They face <b>South Africa</b> in front of 83,000.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Numbers strip -->
+  <section class="numbers-sec reveal">
+    <div class="nums">
+      <div class="nums-cell"><div class="v">48</div><div class="l">Nations qualified</div></div>
+      <div class="nums-cell"><div class="v">16</div><div class="l">Host cities</div></div>
+      <div class="nums-cell"><div class="v">104</div><div class="l">Matches</div></div>
+      <div class="nums-cell"><div class="v">39</div><div class="l">Days</div></div>
+    </div>
+  </section>
+
+  <!-- 3. Defending champions -->
+  <section>
+    <div class="story flip reveal">
+      <div class="story-clay"><img src="./homes/argentina.webp" alt="Argentina"></div>
+      <div class="story-text">
+        <div class="story-sub">Defending champions <span class="stars">★★★</span></div>
+        <h2>Argentina, for the fourth.</h2>
+        <p>Three cups already, last won in Qatar 2022. <b>Messi at 38</b> plays his sixth and almost certainly final World Cup, with Lionel Scaloni still in the dugout.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Three host nations -->
+  <section class="hosts-sec">
+    <h2 class="hosts-h reveal">Three nations, sixteen cities.</h2>
+    <div class="hosts reveal">
+      <div class="host-card">
+        <div class="host-icon"><img src="./icons/usa.webp" alt="United States"></div>
+        <div class="nm">United States</div>
+        <div class="ct">11 cities</div>
+        <div class="meta">Atlanta, Boston, Dallas, Houston, Kansas City, LA, Miami, NY/NJ, Philadelphia, SF Bay, Seattle.<br><b>Final at MetLife.</b></div>
+      </div>
+      <div class="host-card">
+        <div class="host-icon"><img src="./icons/mexico.webp" alt="Mexico"></div>
+        <div class="nm">Mexico</div>
+        <div class="ct">3 cities</div>
+        <div class="meta">Mexico City, Guadalajara, Monterrey.<br><b>Opener at Estadio Azteca.</b></div>
+      </div>
+      <div class="host-card">
+        <div class="host-icon"><img src="./icons/canada.webp" alt="Canada"></div>
+        <div class="nm">Canada</div>
+        <div class="ct">2 cities</div>
+        <div class="meta">Toronto, Vancouver.<br><b>First time hosting the men's World Cup.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Goodbye tour -->
+  <section class="goodbye-sec">
+    <div class="goodbye-head reveal">
+      <h2>The goodbye tour.</h2>
+      <p>Five icons of a generation, almost certainly playing their last World Cup. The names that defined two decades of the game.</p>
+    </div>
+    <div class="busts reveal">
+      <a class="bust" href="./team.html?team=Portugal">
+        <img src="./players/portugal.webp" alt="Cristiano Ronaldo">
+        <div class="nm">Cristiano Ronaldo</div>
+        <div class="age">Portugal · 41</div>
+      </a>
+      <a class="bust" href="./team.html?team=Argentina">
+        <img src="./players/argentina.webp" alt="Lionel Messi">
+        <div class="nm">Lionel Messi</div>
+        <div class="age">Argentina · 38</div>
+      </a>
+      <a class="bust" href="./team.html?team=Croatia">
+        <img src="./players/croatia.webp" alt="Luka Modrić">
+        <div class="nm">Luka Modrić</div>
+        <div class="age">Croatia · 40</div>
+      </a>
+      <a class="bust" href="./team.html?team=Senegal">
+        <img src="./players/senegal.webp" alt="Sadio Mané">
+        <div class="nm">Sadio Mané</div>
+        <div class="age">Senegal · 34</div>
+      </a>
+      <a class="bust" href="./team.html?team=Mexico">
+        <img src="./players/ochoa.webp" alt="Guillermo Ochoa">
+        <div class="nm">Guillermo Ochoa</div>
+        <div class="age">Mexico · 40</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6. Hottest stage -->
+  <section>
+    <div class="story reveal">
+      <div class="story-clay"><img src="./stadiums/dallas-stadium.webp" alt="AT&amp;T Stadium"></div>
+      <div class="story-text">
+        <h2>96°F. Dallas. Retractable roof.</h2>
+        <p>Mid-afternoon kickoffs in Texas push <b>96°F</b>, the cup's heat ceiling. AT&amp;T's retractable roof will close more than once. Four stadiums in the U.S. have retractable roofs for exactly this reason.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Iran story -->
+  <section>
+    <div class="story flip reveal">
+      <div class="story-clay"><img src="./homes/ir-iran.webp" alt="Iran"></div>
+      <div class="story-text">
+        <h2>Iran commutes from Tijuana.</h2>
+        <p>After the 2026 Iran war, Washington declined to host the squad. <b>Iran trains in Tijuana</b> and crosses the border for matches in Los Angeles and Seattle. Their captain Mehdi Taremi's U.S. visa is not certain.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7.5 Mascots -->
+  <section class="mascots-sec">
+    <div class="mascots-head reveal">
+      <h2>Three mascots, one cup.</h2>
+      <p><b>Maple</b> is Canada's moose, a goalkeeper in red. <b>Zayu</b> is Mexico's jaguar, a forward in green. <b>Clutch</b> is the United States' bald eagle, a midfielder in navy. Unveiled Sept 25, 2025.</p>
+    </div>
+    <div class="mascots reveal">
+      <div class="mascot-card">
+        <img src="./mascots/maple.webp" alt="Maple, Canada's mascot">
+        <div class="nm">Maple</div>
+        <div class="role">Moose · Goalkeeper · <b>Canada</b></div>
+      </div>
+      <div class="mascot-card">
+        <img src="./mascots/zayu.webp" alt="Zayu, Mexico's mascot">
+        <div class="nm">Zayu</div>
+        <div class="role">Jaguar · Forward · <b>Mexico</b></div>
+      </div>
+      <div class="mascot-card">
+        <img src="./mascots/clutch.webp" alt="Clutch, USA's mascot">
+        <div class="nm">Clutch</div>
+        <div class="role">Bald eagle · Midfielder · <b>United States</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Debutants -->
+  <section class="debut-sec">
+    <div class="debut-head reveal">
+      <h2>Four debutants.</h2>
+      <p>Cabo Verde, Curaçao, Jordan and Uzbekistan reach their first ever World Cup. Curaçao becomes the smallest nation, by population, to ever qualify.</p>
+    </div>
+    <div class="debutants reveal">
+      <a class="debutant" href="./team.html?team=Cabo%20Verde">
+        <img src="./homes/cabo-verde.webp" alt="Cabo Verde">
+        <div class="nm">Cabo Verde</div>
+        <div class="meta">Group H</div>
+      </a>
+      <a class="debutant" href="./team.html?team=Cura%C3%A7ao">
+        <img src="./homes/cura-ao.webp" alt="Curaçao">
+        <div class="nm">Curaçao</div>
+        <div class="meta">Group E</div>
+      </a>
+      <a class="debutant" href="./team.html?team=Jordan">
+        <img src="./homes/jordan.webp" alt="Jordan">
+        <div class="nm">Jordan</div>
+        <div class="meta">Group J</div>
+      </a>
+      <a class="debutant" href="./team.html?team=Uzbekistan">
+        <img src="./homes/uzbekistan.webp" alt="Uzbekistan">
+        <div class="nm">Uzbekistan</div>
+        <div class="meta">Group K</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 9. New format -->
+  <section class="format-sec">
+    <div class="format reveal">
+      <div class="format-text">
+        <h2>12 groups. 48 teams. One new round.</h2>
+        <p><b>Twelve groups of four.</b> The top two of each plus the eight best third-placed teams reach a brand-new <b>Round of 32</b>, then the standard knockout bracket through to the final.</p>
+        <p>The cup expanded from 32 teams in 2022 to <b>48 in 2026</b>. From 64 matches to 104.</p>
+        <a class="cta" href="./matches.html">All 104 matches →</a>
+      </div>
+      <div class="funnel" id="funnel"></div>
+    </div>
+  </section>
+
+  <!-- 10. Final -->
+  <section>
+    <div class="story reveal">
+      <div class="story-clay"><img src="./stadiums/new-york-new-jersey-stadium.webp" alt="MetLife Stadium"></div>
+      <div class="story-text">
+        <div class="story-sub"><b>Jul 19</b> · East Rutherford, NJ</div>
+        <h2>The Cup ends at MetLife.</h2>
+        <p>The 2026 final takes place at <b>MetLife Stadium</b>, East Rutherford, New Jersey. 82,500 seats. The winning nation lifts the trophy in front of the New York skyline.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. What's next -->
+  <section class="next-sec">
+    <div class="head reveal">
+      <h2>What's next.</h2>
+      <p>The latest results and what comes next, updated live.</p>
+    </div>
+    <div class="next-feed reveal" id="nextFeed"></div>
+    <a class="next-all" href="./matches.html">All 104 fixtures →</a>
+  </section>
+
+  <!-- 12. Closer -->
+  <section class="closer reveal">
+    <h2>The Drop, in your <em>inbox</em>.</h2>
+    <p>One drop like this every Tuesday. Pop culture and sport, told in clay and data.</p>
+    <form class="closer-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thanks ✓'">
+      <input type="email" placeholder="your@email.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <span>© <b>Saifis Works</b> · 2026</span>
+  <span><b>Drop №058</b> · The Cup</span>
+</footer>
+
+<script src="./data.js"></script>
+<script src="./wc-live.js"></script>
+<script>
+(function(){
+  const THEME_KEY = 'wc.theme';
+  const themeToggle = document.getElementById('themeToggle');
+  const topBar = document.getElementById('topBar');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem(THEME_KEY);
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem(THEME_KEY, next);
+  });
+
+  const brandLogo = document.getElementById('brandLogo');
+  const topNav = document.getElementById('topNav');
+  function onScroll(){
+    const past = window.scrollY > window.innerHeight * 0.55;
+    brandLogo.classList.toggle('visible', past);
+    topNav.classList.toggle('visible', past);
+    topBar.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  (function(){
+    const HOME_SLUG = {'Curaçao':'cura-ao',"Côte d'Ivoire":'c-te-d-ivoire','Türkiye':'t-rkiye'};
+    function homeSlug(name){
+      if(HOME_SLUG[name]) return HOME_SLUG[name];
+      return name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    }
+    function monthDay(d){const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const dt=new Date(d);return `${m[dt.getUTCMonth()]} ${dt.getUTCDate()}`;}
+    function dayOfWeek(d){const w=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];return w[new Date(d).getUTCDay()];}
+    function isRealTeam(name){
+      if(!name) return false;
+      if(name === 'To be announced') return false;
+      if(/^\d/.test(name)) return false;
+      return true;
+    }
+    const V = (window.WC && window.WC.venues) ? window.WC.venues : [];
+    const all = [];
+    V.forEach(v => (v.matches||[]).forEach(m => all.push({...m, venue: v})));
+    all.sort((a,b) => a.date.localeCompare(b.date) || (a.kick||'').localeCompare(b.kick||''));
+    const el = document.getElementById('nextFeed');
+    if(!el) return;
+
+    function windowFor(live){
+      if(!live) return all.slice(0, 6);
+      let firstOpen = all.findIndex(m => { const r = live[m.n]; return !(r && r.status === 0); });
+      if(firstOpen === -1) firstOpen = all.length;
+      const start = Math.max(0, firstOpen - 2);
+      return all.slice(start, start + 6);
+    }
+
+    function row(m, live){
+      const r = live && live[m.n];
+      const done = !!(r && r.status === 0);
+      const isLive = !!(r && r.status === 3);
+      const homeImg = isRealTeam(m.home) ? `<img src="./homes/${homeSlug(m.home)}.webp" alt="">` : '';
+      const awayImg = isRealTeam(m.away) ? `<img src="./homes/${homeSlug(m.away)}.webp" alt="">` : '';
+      let dateCell, mid, homeCls = 'nm', awayCls = 'nm away';
+      if(done || isLive){
+        const pen = (r.hp != null && r.ap != null) ? `<span class="pen">pens ${r.hp}-${r.ap}</span>` : '';
+        mid = `<span class="sc">${r.hs}<span style="opacity:.4"> - </span>${r.as}${pen}</span>`;
+        dateCell = done
+          ? `<b>${monthDay(m.date)}</b><span class="ft">Full time</span>`
+          : `<b>${monthDay(m.date)}</b><span class="liveflag">Live</span>`;
+        if(done && r.winner){
+          if(r.winner === m.home) awayCls += ' lose'; else if(r.winner === m.away) homeCls += ' lose';
+        }
+      } else {
+        mid = `<span class="vs">vs</span>`;
+        dateCell = `<b>${monthDay(m.date)}</b>${dayOfWeek(m.date)} · ${m.kick||''}`;
+      }
+      return `
+        <a class="next-row" href="./match.html?n=${m.n}">
+          <span class="date">${dateCell}</span>
+          <span class="clay">${homeImg}</span>
+          <span class="${homeCls}">${m.home}</span>
+          ${mid}
+          <span class="${awayCls}">${m.away}</span>
+          <span class="clay">${awayImg}</span>
+          <span class="ven"><b>${m.venue.stadium}</b>${m.venue.city}</span>
+          <span class="arrow">→</span>
+        </a>`;
+    }
+
+    function renderFeed(live){
+      el.innerHTML = windowFor(live).map(m => row(m, live)).join('');
+    }
+
+    renderFeed(null);
+    if(window.WCLive){
+      WCLive.load().then(o => renderFeed(o.map)).catch(()=>{});
+    }
+  })();
+
+  const funnelEl = document.getElementById('funnel');
+  if(funnelEl){
+    const STAGES = [
+      ['Group stage',  48, 100, false, false],
+      ['Round of 32',  32, 67,  true,  false],
+      ['Round of 16',  16, 36,  false, false],
+      ['Quarter-final', 8, 20,  false, false],
+      ['Semi-final',    4, 12,  false, false],
+      ['Final',         2, 8,   false, false],
+      ['Champion',      1, 5,   false, true ],
+    ];
+    funnelEl.innerHTML = STAGES.map(([label, n, pct, isNew, isChamp]) => `
+      <div class="funnel-row ${isChamp?'champ':''}">
+        <div class="label">${label}${isNew ? '<span class="new-tag">New</span>' : ''}</div>
+        <div class="bar-track"><div class="bar" style="width:${pct}%"></div></div>
+        <div class="num">${n}</div>
+      </div>
+    `).join('');
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){
+      e.target.classList.add('on');
+      e.target.querySelectorAll('.nums-cell .v').forEach(el => {
+        if(el.dataset.ticked) return;
+        el.dataset.ticked = '1';
+        const end = +el.textContent.replace(/[^\d]/g,'');
+        if(!end) return;
+        const dur = 1100;
+        const start = performance.now();
+        function step(now){
+          const t = Math.min(1, (now - start) / dur);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(end * eased).toLocaleString();
+          if(t < 1) requestAnimationFrame(step);
+          else el.textContent = end.toLocaleString();
+        }
+        requestAnimationFrame(step);
+      });
+    }});
+  }, {threshold: 0.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+})();
+</script>
+<script src="./mobile-nav.js"></script>
+<script src="./funnel.js"></script>
+</body>
+</html>

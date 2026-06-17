@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Match · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+    .top-bar{position:fixed;top:0;left:0;right:0;height:72px;z-index:33;background:var(--bg)}
+    .brand-logo{position:fixed;top:30px;left:36px;z-index:36;font-weight:800;font-size:14px;color:var(--ink);opacity:1;pointer-events:auto}
+    .brand-logo:hover{color:var(--accent)}
+    .theme-toggle{position:fixed;top:28px;right:36px;z-index:38;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--ink2)}
+    .theme-toggle:hover{color:var(--ink)}
+    .theme-toggle svg{width:16px;height:16px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+    .top-nav{position:fixed;top:32px;right:92px;z-index:35;display:flex;gap:32px;font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase}
+    .top-nav a{color:var(--ink2);transition:color .4s var(--ease)}
+    .top-nav a:hover,.top-nav a.active{color:var(--ink)}
+    .top-nav a.active{color:var(--accent)}
+    main{padding:100px clamp(20px,3vw,40px) 60px;max-width:1280px;margin:0 auto}
+    .back-link{display:inline-flex;align-items:center;gap:8px;color:var(--ink2);margin-bottom:24px;transition:color .3s}
+    .back-link:hover{color:var(--ink)}
+    .match-card{text-align:center;padding:48px;border:1px solid var(--line);border-radius:16px;background:var(--bg)}
+    .match-card .group{font-size:14px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em}
+    .match-card .teams{display:flex;align-items:center;justify-content:center;gap:32px;font-size:28px;font-weight:800;color:var(--ink);margin:24px 0;flex-wrap:wrap}
+    .match-card .score{font-size:48px;font-weight:900;color:var(--accent);padding:0 16px}
+    .match-card .status{font-size:18px;color:var(--ink2)}
+    .match-card .status.live{color:#1a9c5b;font-weight:700}
+    .match-card .venue{font-size:16px;color:var(--ink2);margin-top:16px}
+    .match-card .venue b{color:var(--ink)}
+    .match-card .penalty{font-size:16px;color:var(--ink3);margin-top:8px}
+    @media (max-width:720px){.top-nav{display:none!important}.match-card .teams{font-size:20px;gap:12px}.match-card .score{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<a class="brand-logo" href="./index.html">World Cup</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html">Stadiums</a>
+  <a href="./teams.html">Teams</a>
+  <a href="./matches.html" class="active">Matches</a>
+  <a href="./standings.html">Standings</a>
+  <a href="./live.html">Live</a>
+</nav>
+
+<main id="main">
+  <a class="back-link" href="./matches.html">← All Matches</a>
+  <div id="content"></div>
+</main>
+
+<footer style="border-top:1px solid var(--line);padding:32px clamp(20px,3vw,40px);display:flex;justify-content:space-between;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);max-width:1280px;margin:0 auto">
+  <span>© <b>SAIFI'S WORKS</b> · 2026</span>
+  <span><b>FIFA Event Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('wc.theme', next);
+  });
+</script>
+<script src="./data.js"></script>
+<script src="./wc-live.js"></script>
+<script>
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const n = parseInt(params.get('n'));
+    const V = window.WC.venues;
+    const el = document.getElementById('content');
+    if(!V || !el) return;
+    
+    let match = null;
+    let venue = null;
+    for(let v of V){
+      const m = (v.matches||[]).find(m => m.n === n);
+      if(m){ match = m; venue = v; break; }
+    }
+    
+    if(!match){
+      el.innerHTML = '<h2>Match not found</h2><a href="./matches.html">← Back to matches</a>';
+      return;
+    }
+    
+    function monthDay(d){ const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const dt=new Date(d); return `${m[dt.getUTCMonth()]} ${dt.getUTCDate()}`; }
+    
+    function render(live){
+      const r = live && live[n];
+      const done = r && r.status === 0;
+      const isLive = r && r.status === 3;
+      let statusText = match.kick || 'Upcoming';
+      let statusClass = '';
+      let score = 'vs';
+      let penalty = '';
+      if(done){
+        statusClass = '';
+        statusText = 'Full Time';
+        const pen = (r.hp != null && r.ap != null) ? `Penalties: ${r.hp} - ${r.ap}` : '';
+        score = `${r.hs} - ${r.as}`;
+        penalty = pen;
+      } else if(isLive){
+        statusClass = 'live';
+        statusText = '🔴 LIVE';
+        const pen = (r.hp != null && r.ap != null) ? `Penalties: ${r.hp} - ${r.ap}` : '';
+        score = `${r.hs} - ${r.as}`;
+        penalty = pen;
+      }
+      
+      el.innerHTML = `
+        <div class="match-card">
+          <div class="group">${match.group || 'Knockout'}</div>
+          <div class="teams">
+            <span>${match.home}</span>
+            <span class="score">${score}</span>
+            <span>${match.away}</span>
+          </div>
+          ${penalty ? `<div class="penalty">${penalty}</div>` : ''}
+          <div class="status ${statusClass}">${statusText}</div>
+          <div class="venue"><b>${venue.stadium}</b> · ${venue.city}, ${venue.country}</div>
+          <div style="margin-top:12px;font-size:14px;color:var(--ink3)">${monthDay(match.date)} · ${match.kick || ''}</div>
+        </div>
+      `;
+    }
+    
+    if(window.WCLive){
+      WCLive.load().then(o => render(o.map)).catch(() => render(null));
+    } else {
+      render(null);
+    }
+  })();
+</script>
+<script src="./mobile-nav.js"></script>
+</body>
+</html>

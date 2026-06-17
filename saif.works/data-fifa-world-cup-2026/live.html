@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Live · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --bg2:#F2EDE4;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --accent2:#C9883A;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --card-bg:#ffffff;
+      --card-border:rgba(26,20,16,.08);
+      --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+      --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --serif:'Playfair Display',Georgia,serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+      --ease-out:cubic-bezier(0.22,1,0.36,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --bg2:#221c16;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+      --card-bg:#231d17;
+      --card-border:rgba(244,237,226,.07);
+      --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+      --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+
+    /* ── top chrome ── */
+    .top-bar{
+      position:fixed;top:0;left:0;right:0;height:72px;z-index:33;
+      background:var(--bg);
+      border-bottom:1px solid transparent;
+      transition:background .5s var(--ease),border-color .3s;
+    }
+    .top-bar.scrolled{border-color:var(--line)}
+
+    .brand-logo{
+      position:fixed;top:26px;left:36px;z-index:36;
+      font-family:var(--serif);font-weight:800;font-size:15px;letter-spacing:-.01em;
+      color:var(--ink);opacity:1;pointer-events:auto;
+      transition:color .3s;
+    }
+    .brand-logo:hover{color:var(--accent)}
+
+    .theme-toggle{
+      position:fixed;top:24px;right:36px;z-index:38;
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--card-bg);border:1px solid var(--card-border);
+      border-radius:50%;cursor:pointer;color:var(--ink2);
+      box-shadow:var(--card-shadow);
+      transition:color .35s,background .25s,border-color .25s;
+    }
+    .theme-toggle:hover{color:var(--ink);background:var(--bg2)}
+    .theme-toggle svg{width:15px;height:15px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+
+    .top-nav{
+      position:fixed;top:28px;right:88px;z-index:35;
+      display:flex;gap:4px;
+    }
+    .top-nav a{
+      color:var(--ink2);
+      font-size:12px;font-weight:600;letter-spacing:.06em;
+      padding:5px 12px;border-radius:20px;
+      transition:color .25s,background .25s;
+    }
+    .top-nav a:hover{color:var(--ink);background:var(--bg2)}
+    .top-nav a.active{color:var(--accent);background:rgba(217,162,153,.1)}
+
+    /* ── main ── */
+    main{
+      padding:108px clamp(20px,3vw,40px) 72px;
+      max-width:1280px;margin:0 auto;
+    }
+
+    .back-link{
+      display:inline-flex;align-items:center;gap:6px;
+      color:var(--ink3);font-size:13px;font-weight:600;
+      margin-bottom:32px;
+      transition:color .25s,gap .25s;
+    }
+    .back-link:hover{color:var(--ink);gap:10px}
+
+    .page-head{
+      display:flex;align-items:flex-end;justify-content:space-between;
+      gap:20px;flex-wrap:wrap;
+      margin-bottom:48px;
+    }
+    .page-eyebrow{
+      font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--ink3);margin-bottom:10px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .page-eyebrow::before{content:'';width:18px;height:1.5px;background:var(--accent)}
+
+    h1{
+      font-family:var(--serif);
+      font-size:clamp(36px,4vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1.02;
+      color:var(--ink);margin-bottom:8px;
+    }
+    .sub{font-size:17px;color:var(--ink2);line-height:1.5}
+
+    /* refresh button */
+    .refresh-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 22px;
+      border:1px solid var(--card-border);
+      border-radius:24px;
+      background:var(--card-bg);
+      color:var(--ink2);font:600 13px var(--sans);
+      cursor:pointer;
+      box-shadow:var(--card-shadow);
+      transition:background .25s,border-color .25s,color .25s,transform .25s,box-shadow .25s;
+    }
+    .refresh-btn:hover{
+      background:var(--ink);border-color:var(--ink);color:var(--bg);
+      transform:translateY(-2px);box-shadow:var(--card-shadow-hover);
+    }
+    .refresh-btn .spin{display:inline-block;transition:transform .6s}
+    .refresh-btn:active .spin{transform:rotate(360deg)}
+
+    /* live grid */
+    .live-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+      gap:24px;
+    }
+
+    .live-card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:16px;
+      padding:28px 20px 24px;
+      text-align:center;
+      box-shadow:var(--card-shadow);
+      transition:transform .4s var(--ease-out),box-shadow .4s var(--ease-out),border-color .25s;
+      position:relative;
+      overflow:hidden;
+      opacity:0;
+      animation: slideUpFade 0.6s ease forwards;
+    }
+    .live-card::before{
+      content:'';
+      position:absolute;top:0;left:0;right:0;height:3px;
+      background:var(--line);
+      transition:background .3s;
+    }
+    .live-card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:var(--card-shadow-hover);
+    }
+
+    /* Staggered Entrance */
+    .live-card:nth-child(1) { animation-delay: 0.05s; }
+    .live-card:nth-child(2) { animation-delay: 0.10s; }
+    .live-card:nth-child(3) { animation-delay: 0.15s; }
+    .live-card:nth-child(4) { animation-delay: 0.20s; }
+    .live-card:nth-child(5) { animation-delay: 0.25s; }
+    .live-card:nth-child(6) { animation-delay: 0.30s; }
+    .live-card:nth-child(7) { animation-delay: 0.35s; }
+    .live-card:nth-child(8) { animation-delay: 0.40s; }
+    .live-card:nth-child(9) { animation-delay: 0.45s; }
+    .live-card:nth-child(10) { animation-delay: 0.50s; }
+    .live-card:nth-child(11) { animation-delay: 0.55s; }
+    .live-card:nth-child(12) { animation-delay: 0.60s; }
+
+    @keyframes slideUpFade {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* live state */
+    .live-card.live{
+      border-color:rgba(26,156,91,.3);
+    }
+    html.dark .live-card.live{border-color:rgba(79,208,137,.2)}
+    .live-card.live::before{
+      background:linear-gradient(90deg,#1a9c5b,#4fd089);
+    }
+
+    /* finished state */
+    .live-card.finished::before{
+      background:linear-gradient(90deg,var(--ink3),var(--ink2));
+    }
+
+    /* upcoming / default */
+    .live-card.upcoming::before{
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+    }
+
+    .live-card .group{
+      font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--ink3);margin-bottom:16px;
+    }
+
+    .live-card .teams{
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      font-size:15px;font-weight:700;color:var(--ink);
+      flex-wrap:wrap;line-height:1.3;
+    }
+    .live-card .score{
+      font-family:var(--serif);
+      font-size:26px;font-weight:800;
+      color:var(--accent);
+      padding:10px 14px;
+      background:rgba(217,162,153,.08);
+      border-radius:10px;
+      min-width:80px;
+      line-height:1;
+    }
+    .live-card.live .score{
+      color:#1a9c5b;
+      background:rgba(26,156,91,.08);
+    }
+    html.dark .live-card.live .score{color:#4fd089;background:rgba(79,208,137,.08)}
+
+    .live-card .status{
+      font-size:11px;font-weight:700;color:var(--ink3);
+      text-transform:uppercase;letter-spacing:.1em;
+      margin-top:16px;
+      display:inline-flex;align-items:center;gap:5px;
+    }
+    .live-card .status.live{color:#1a9c5b}
+    html.dark .live-card .status.live{color:#4fd089}
+    .live-card .status.live::before{
+      content:'';width:6px;height:6px;border-radius:50%;
+      background:currentColor;
+      animation:livepulse 1.4s ease infinite;
+    }
+    @keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.75)}}
+
+    .live-card .venue{
+      font-size:12px;color:var(--ink2);margin-top:10px;line-height:1.4;
+    }
+    .live-card .venue b{color:var(--ink);font-weight:600;display:block}
+
+    /* Glow Ring on Hover */
+    .live-card::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--accent), transparent, var(--accent2), transparent);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      animation: borderGlow 3s ease infinite;
+      pointer-events: none;
+    }
+
+    .live-card:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* footer */
+    footer{
+      border-top:1px solid var(--line);
+      padding:32px clamp(20px,3vw,40px);
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+      max-width:1280px;margin:0 auto;
+    }
+    footer b{color:var(--ink);font-weight:600}
+
+    @media(max-width:720px){
+      .top-nav{display:none!important}
+      .page-head{flex-direction:column;align-items:flex-start}
+      .live-grid{grid-template-columns:1fr;gap:16px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar" id="topBar"></div>
+<a class="brand-logo" href="./index.html">World Cup 2026</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html">Stadiums</a>
+  <a href="./teams.html">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html">Standings</a>
+  <a href="./live.html" class="active">Live</a>
+</nav>
+
+<main>
+  <a class="back-link" href="./index.html">← Home</a>
+
+  <div class="page-head">
+    <div class="page-head-left">
+      <div class="page-eyebrow">Real-time updates</div>
+      <h1>Live Scores</h1>
+      <p class="sub">Updated every 60 seconds automatically.</p>
+    </div>
+    <button class="refresh-btn" id="refreshBtn">
+      <span class="spin">⟳</span> Refresh
+    </button>
+  </div>
+
+  <div class="live-grid" id="liveGrid"></div>
+</main>
+
+<footer>
+  <span>© <b>Saifis Works</b> · 2026</span>
+  <span><b>Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const topBar = document.getElementById('topBar');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next); localStorage.setItem('wc.theme', next);
+  });
+  window.addEventListener('scroll', () => {
+    topBar.classList.toggle('scrolled', window.scrollY > 10);
+  }, {passive:true});
+</script>
+<script src="./data.js"></script>
+<script src="./wc-live.js"></script>
+<script>
+  (function(){
+    const V = window.WC.venues;
+    const el = document.getElementById('liveGrid');
+    const refreshBtn = document.getElementById('refreshBtn');
+    if(!V || !el) return;
+
+    const all = [];
+    V.forEach(v => (v.matches||[]).forEach(m => all.push({...m, venue: v})));
+    all.sort((a,b) => a.date.localeCompare(b.date) || (a.kick||'').localeCompare(b.kick||''));
+
+    function monthDay(d){
+      const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const dt=new Date(d);return `${m[dt.getUTCMonth()]} ${dt.getUTCDate()}`;
+    }
+
+    function render(live){
+      const now = new Date();
+      const matches = all.filter(m => {
+        const d = new Date(m.date);
+        return d <= now || (live && live[m.n]);
+      }).slice(0, 12);
+
+      if(!matches.length){
+        el.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--ink2);padding:48px 0;font-size:15px;">
+          No matches yet — the tournament kicks off <b>Jun 11</b>.
+        </div>`;
+        return;
+      }
+
+      el.innerHTML = matches.map(m => {
+        const r = live && live[m.n];
+        const done = r && r.status === 0;
+        const isLive = r && r.status === 3;
+        let stateClass = 'upcoming';
+        let statusText = monthDay(m.date) + (m.kick ? ' · ' + m.kick : '');
+        let scoreHtml = '<span style="font-size:13px;font-weight:600;color:var(--ink3)">vs</span>';
+
+        if(done){
+          stateClass = 'finished';
+          statusText = 'Full Time';
+          const pen = (r.hp != null && r.ap != null) ? `<span style="display:block;font-size:10px;font-weight:600;color:var(--ink3);margin-top:4px">pens ${r.hp}–${r.ap}</span>` : '';
+          scoreHtml = `<span class="score">${r.hs}<span style="opacity:.35;margin:0 2px">-</span>${r.as}${pen}</span>`;
+        } else if(isLive){
+          stateClass = 'live';
+          statusText = 'Live';
+          const pen = (r.hp != null && r.ap != null) ? `<span style="display:block;font-size:10px;font-weight:600;margin-top:4px">pens ${r.hp}–${r.ap}</span>` : '';
+          scoreHtml = `<span class="score">${r.hs}<span style="opacity:.35;margin:0 2px">-</span>${r.as}${pen}</span>`;
+        }
+
+        return `
+          <a class="live-card ${stateClass}" href="./match.html?n=${m.n}">
+            <div class="group">${m.group || 'Knockout'}</div>
+            <div class="teams">
+              <span>${m.home}</span>
+              ${scoreHtml}
+              <span>${m.away}</span>
+            </div>
+            <div class="status ${stateClass}">${statusText}</div>
+            <div class="venue"><b>${m.venue.stadium}</b>${m.venue.city}</div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    function loadData(){
+      if(window.WCLive){
+        WCLive.load().then(o => render(o.map)).catch(() => render(null));
+      } else {
+        render(null);
+      }
+    }
+
+    loadData();
+    refreshBtn.addEventListener('click', loadData);
+    setInterval(loadData, 60000);
+  })();
+</script>
+<script src="./mobile-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Team · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+    .top-bar{position:fixed;top:0;left:0;right:0;height:72px;z-index:33;background:var(--bg)}
+    .brand-logo{position:fixed;top:30px;left:36px;z-index:36;font-weight:800;font-size:14px;color:var(--ink);opacity:1;pointer-events:auto}
+    .brand-logo:hover{color:var(--accent)}
+    .theme-toggle{position:fixed;top:28px;right:36px;z-index:38;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;color:var(--ink2)}
+    .theme-toggle:hover{color:var(--ink)}
+    .theme-toggle svg{width:16px;height:16px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+    .top-nav{position:fixed;top:32px;right:92px;z-index:35;display:flex;gap:32px;font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase}
+    .top-nav a{color:var(--ink2);transition:color .4s var(--ease)}
+    .top-nav a:hover,.top-nav a.active{color:var(--ink)}
+    .top-nav a.active{color:var(--accent)}
+    main{padding:100px clamp(20px,3vw,40px) 60px;max-width:1280px;margin:0 auto}
+    .back-link{display:inline-flex;align-items:center;gap:8px;color:var(--ink2);margin-bottom:24px;transition:color .3s}
+    .back-link:hover{color:var(--ink)}
+    .team-hero{display:grid;grid-template-columns:120px 1fr;gap:32px;align-items:center;margin-bottom:48px}
+    .team-hero img{width:120px;height:120px;object-fit:contain}
+    .team-hero h1{font-size:clamp(32px,3.4vw,52px);font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-bottom:4px}
+    .team-hero .group{font-size:18px;color:var(--accent);font-weight:600}
+    .match-list{display:flex;flex-direction:column;gap:12px}
+    .match-row{display:grid;grid-template-columns:80px 1fr 60px 1fr 100px;gap:16px;align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:8px}
+    .match-row .date{font-size:12px;color:var(--ink2)}
+    .match-row .date b{color:var(--ink);display:block}
+    .match-row .team{font-weight:600}
+    .match-row .team.away{text-align:right}
+    .match-row .vs{font-size:12px;font-weight:600;color:var(--ink3);text-align:center;text-transform:uppercase}
+    .match-row .venue{font-size:12px;color:var(--ink3);text-align:right}
+    .match-row .venue b{color:var(--ink);display:block}
+    @media (max-width:720px){.top-nav{display:none!important}.team-hero{grid-template-columns:1fr;text-align:center}.match-row{grid-template-columns:1fr;gap:4px;text-align:center}.match-row .team.away{text-align:center}.match-row .venue{text-align:center}}
+  </style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<a class="brand-logo" href="./index.html">World Cup</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html">Stadiums</a>
+  <a href="./teams.html" class="active">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html">Standings</a>
+  <a href="./live.html">Live</a>
+</nav>
+
+<main id="main">
+  <a class="back-link" href="./teams.html">← All Teams</a>
+  <div id="content"></div>
+</main>
+
+<footer style="border-top:1px solid var(--line);padding:32px clamp(20px,3vw,40px);display:flex;justify-content:space-between;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);max-width:1280px;margin:0 auto">
+  <span>© <b>SAIFI'S WORKS</b> · 2026</span>
+  <span><b>FIFA Event Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('wc.theme', next);
+  });
+</script>
+<script src="./data.js"></script>
+<script>
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const teamName = params.get('team');
+    const V = window.WC.venues;
+    const el = document.getElementById('content');
+    if(!V || !el || !teamName) return;
+    
+    // Find all matches for this team
+    const matches = [];
+    let group = '';
+    V.forEach(v => {
+      (v.matches||[]).forEach(m => {
+        if(m.home === teamName || m.away === teamName) {
+          matches.push({...m, venue: v});
+          if(m.group && m.group !== 'R32' && m.group !== 'QF' && m.group !== 'SF' && m.group !== '3P' && m.group !== 'Final') {
+            group = m.group;
+          }
+        }
+      });
+    });
+    
+    if(!matches.length){
+      el.innerHTML = '<h2>Team not found</h2><a href="./teams.html">← Back to teams</a>';
+      return;
+    }
+    
+    matches.sort((a,b) => a.date.localeCompare(b.date) || (a.kick||'').localeCompare(b.kick||''));
+    const slug = teamName.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    
+    function monthDay(d){ const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const dt=new Date(d); return `${m[dt.getUTCMonth()]} ${dt.getUTCDate()}`; }
+    
+    el.innerHTML = `
+      <div class="team-hero">
+        <img src="./homes/${slug}.webp" alt="${teamName}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22%3E%3Crect width=%22120%22 height=%22120%22 fill=%22%23E5D7C6%22/%3E%3Ctext x=%2260%22 y=%2268%22 text-anchor=%22middle%22 fill=%22%237a6d5e%22 font-size=%2220%22 font-family=%22sans-serif%22%3E${teamName.substring(0,3)}%3C/text%3E%3C/svg%3E'">
+        <div>
+          <h1>${teamName}</h1>
+          ${group ? `<div class="group">Group ${group}</div>` : ''}
+        </div>
+      </div>
+      <h2 style="font-size:24px;font-weight:700;margin-bottom:16px">Matches</h2>
+      <div class="match-list">
+        ${matches.map(m => `
+          <a class="match-row" href="./match.html?n=${m.n}">
+            <span class="date"><b>${monthDay(m.date)}</b>${m.kick||''}</span>
+            <span class="team ${m.home === teamName ? '' : 'away'}">${m.home}</span>
+            <span class="vs">vs</span>
+            <span class="team ${m.away === teamName ? '' : 'away'}">${m.away}</span>
+            <span class="venue"><b>${m.venue.stadium}</b>${m.venue.city}</span>
+          </a>
+        `).join('')}
+      </div>
+    `;
+  })();
+</script>
+<script src="./mobile-nav.js"></script>
+</body>
+</html>

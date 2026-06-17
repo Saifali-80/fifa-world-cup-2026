@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem("wc.theme");if(!t)t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" type="image/png" href="./trophy/cup-trophy.webp">
+  <title>Stadiums · World Cup 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF7F3;
+      --bg2:#F2EDE4;
+      --line:#E5D7C6;
+      --accent:#D9A299;
+      --accent2:#C9883A;
+      --ink:#1a1410;
+      --ink2:#7a6d5e;
+      --ink3:#a89a87;
+      --card-bg:#FFFFFF;
+      --card-border:rgba(26,20,16,.08);
+      --card-shadow:0 2px 12px rgba(26,20,16,.06), 0 8px 32px rgba(26,20,16,.04);
+      --card-shadow-hover:0 8px 32px rgba(26,20,16,.10), 0 24px 64px rgba(26,20,16,.08);
+      --sans:'Plus Jakarta Sans','Helvetica Neue',system-ui,sans-serif;
+      --serif:'Playfair Display',Georgia,serif;
+      --ease:cubic-bezier(0.85,0,0.15,1);
+      --ease-out:cubic-bezier(0.22,1,0.36,1);
+    }
+    html.dark{
+      --bg:#1a1410;
+      --bg2:#221c16;
+      --line:#3a302a;
+      --ink:#f4ede2;
+      --ink2:#a89c8b;
+      --ink3:#6b6358;
+      --card-bg:#231d17;
+      --card-border:rgba(244,237,226,.07);
+      --card-shadow:0 2px 12px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.14);
+      --card-shadow-hover:0 8px 40px rgba(0,0,0,.28), 0 24px 72px rgba(0,0,0,.18);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+    body{transition:background-color .5s var(--ease),color .5s var(--ease)}
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    ::selection{background:var(--accent);color:var(--bg)}
+
+    .top-bar{
+      position:fixed;top:0;left:0;right:0;height:72px;z-index:33;
+      background:var(--bg);border-bottom:1px solid transparent;
+      transition:background .5s var(--ease), border-color .3s;
+    }
+    .top-bar.scrolled{border-color:var(--line)}
+    .brand-logo{
+      position:fixed;top:26px;left:36px;z-index:36;
+      font-family:var(--serif);font-weight:800;font-size:15px;color:var(--ink);
+      opacity:1;pointer-events:auto;
+      transition:color .5s var(--ease);
+    }
+    .brand-logo:hover{color:var(--accent2)}
+    .theme-toggle{
+      position:fixed;top:24px;right:36px;z-index:38;
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--card-bg);border:1px solid var(--card-border);
+      border-radius:50%;cursor:pointer;color:var(--ink2);
+      transition:all .35s var(--ease);
+    }
+    .theme-toggle:hover{color:var(--ink);background:var(--bg2)}
+    .theme-toggle svg{width:15px;height:15px}
+    .theme-toggle .icon-sun{display:none}
+    html.dark .theme-toggle .icon-sun{display:block}
+    html.dark .theme-toggle .icon-moon{display:none}
+    .top-nav{
+      position:fixed;top:28px;right:88px;z-index:35;
+      display:flex;gap:4px;
+      opacity:1;transition:color .5s var(--ease);
+    }
+    .top-nav a{
+      color:var(--ink2);
+      font-size:12px;font-weight:600;letter-spacing:.06em;
+      padding:5px 12px;border-radius:20px;
+      transition:color .25s, background .25s;
+    }
+    .top-nav a:hover{color:var(--ink);background:var(--bg2)}
+    .top-nav a.active{color:var(--ink);background:var(--bg2)}
+
+    main{padding:100px clamp(20px,3vw,40px) 60px;max-width:1280px;margin:0 auto}
+
+    .page-header{margin-bottom:48px}
+    .page-header h1{
+      font-family:var(--serif);
+      font-size:clamp(36px,4vw,60px);
+      font-weight:800;letter-spacing:-.03em;color:var(--ink);
+      margin-bottom:8px;
+    }
+    .page-header p{font-size:18px;color:var(--ink2)}
+
+    .filter-bar{
+      display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;
+    }
+    .filter-bar button{
+      padding:6px 16px;
+      border:1px solid var(--card-border);
+      border-radius:20px;
+      background:transparent;
+      color:var(--ink2);
+      font:600 12px var(--sans);
+      cursor:pointer;
+      transition:all .3s var(--ease);
+    }
+    .filter-bar button:hover{
+      border-color:var(--accent);
+      color:var(--ink);
+      background:var(--bg2);
+    }
+    .filter-bar button.active{
+      background:var(--accent);
+      color:var(--bg);
+      border-color:var(--accent);
+    }
+
+    .stadium-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+      gap:28px;
+    }
+
+    /* ─── DRAMA EFFECTS ─── */
+    .stadium-card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--card-shadow);
+      position:relative;
+      will-change:transform;
+      
+      /* 3D Tilt Base */
+      transform: perspective(800px) rotateX(0) rotateY(0);
+      
+      /* Combined Animation: Entrance + Float */
+      animation: slideUpFade 0.6s ease forwards, gentleFloat 6s ease-in-out infinite 0.6s;
+      
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+    }
+
+    /* Staggered Entrance - Delays only for the first animation */
+    .stadium-card:nth-child(1) { animation-delay: 0.05s, 0.6s; }
+    .stadium-card:nth-child(2) { animation-delay: 0.10s, 0.6s; }
+    .stadium-card:nth-child(3) { animation-delay: 0.15s, 0.6s; }
+    .stadium-card:nth-child(4) { animation-delay: 0.20s, 0.6s; }
+    .stadium-card:nth-child(5) { animation-delay: 0.25s, 0.6s; }
+    .stadium-card:nth-child(6) { animation-delay: 0.30s, 0.6s; }
+    .stadium-card:nth-child(7) { animation-delay: 0.35s, 0.6s; }
+    .stadium-card:nth-child(8) { animation-delay: 0.40s, 0.6s; }
+    .stadium-card:nth-child(9) { animation-delay: 0.45s, 0.6s; }
+    .stadium-card:nth-child(10) { animation-delay: 0.50s, 0.6s; }
+    .stadium-card:nth-child(11) { animation-delay: 0.55s, 0.6s; }
+    .stadium-card:nth-child(12) { animation-delay: 0.60s, 0.6s; }
+    .stadium-card:nth-child(13) { animation-delay: 0.65s, 0.6s; }
+    .stadium-card:nth-child(14) { animation-delay: 0.70s, 0.6s; }
+    .stadium-card:nth-child(15) { animation-delay: 0.75s, 0.6s; }
+    .stadium-card:nth-child(16) { animation-delay: 0.80s, 0.6s; }
+
+    @keyframes slideUpFade {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Hover: 3D Tilt + Lift + Scale */
+    .stadium-card:hover {
+      transform: perspective(800px) rotateX(2deg) rotateY(4deg) translateY(-10px) scale(1.02);
+      box-shadow: 0 24px 64px rgba(217, 162, 153, 0.25);
+      border-color: var(--accent);
+    }
+
+    /* Glow Ring */
+    .stadium-card::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--accent), transparent, var(--accent2), transparent);
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      animation: borderGlow 3s ease infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .stadium-card:hover::after {
+      opacity: 1;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Image Zoom */
+    .stadium-card .img-wrap{
+      width:100%;height:200px;
+      overflow:hidden;
+      background:var(--bg2);
+      position:relative;
+      z-index:0;
+    }
+    .stadium-card .img-wrap img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .stadium-card:hover .img-wrap img{
+      transform:scale(1.08);
+    }
+
+    .stadium-card .info{padding:20px 22px 22px;position:relative;z-index:2}
+    .stadium-card .country-badge{
+      display:inline-block;
+      font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      padding:3px 10px;border-radius:10px;
+      margin-bottom:8px;
+    }
+    .stadium-card .name{
+      font-family:var(--serif);
+      font-size:20px;font-weight:800;color:var(--ink);
+      margin-bottom:2px;
+    }
+    .stadium-card .city{font-size:14px;color:var(--ink2);margin-bottom:8px}
+    .stadium-card .meta{
+      display:flex;gap:16px;font-size:13px;color:var(--ink3);
+      margin-bottom:14px;
+    }
+    .stadium-card .meta span{display:flex;align-items:center;gap:4px}
+    .stadium-card .cta{
+      display:inline-block;
+      font-size:13px;font-weight:700;
+      color:var(--accent2);
+      border-bottom:1.5px solid var(--accent2);
+      padding-bottom:2px;
+      transition:color .25s, border-color .25s, gap .25s;
+    }
+    .stadium-card .cta:hover{color:var(--ink);border-color:var(--ink)}
+
+    .back-link{
+      display:inline-flex;align-items:center;gap:6px;
+      color:var(--ink2);font-size:14px;font-weight:600;
+      margin-bottom:24px;transition:color .25s;
+    }
+    .back-link:hover{color:var(--ink)}
+
+    .footer{
+      border-top:1px solid var(--line);
+      padding:32px clamp(20px,3vw,40px);
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+      max-width:1280px;margin:0 auto;
+    }
+    .footer b{color:var(--ink);font-weight:600}
+
+    @media (max-width:720px){
+      .top-nav{display:none!important}
+      .stadium-grid{grid-template-columns:1fr;gap:20px}
+      .stadium-card .img-wrap{height:160px}
+      .filter-bar{justify-content:center}
+      .filter-bar button{font-size:11px;padding:5px 12px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar" id="topBar"></div>
+<a class="brand-logo" href="./index.html">World Cup 2026</a>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7" y2="7"/><line x1="17" y1="17" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7" y2="17"/><line x1="17" y1="7" x2="19.07" y2="4.93"/></svg>
+</button>
+
+<nav class="top-nav" id="topNav">
+  <a href="./stadiums.html" class="active">Stadiums</a>
+  <a href="./teams.html">Teams</a>
+  <a href="./matches.html">Matches</a>
+  <a href="./standings.html">Standings</a>
+</nav>
+
+<main>
+  <a class="back-link" href="./index.html">← Home</a>
+
+  <div class="page-header">
+    <h1>Stadiums</h1>
+    <p>16 venues across 3 countries hosting 104 matches</p>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="active" data-country="all">All</button>
+    <button data-country="Mexico">🇲🇽 Mexico</button>
+    <button data-country="USA">🇺🇸 USA</button>
+    <button data-country="Canada">🇨🇦 Canada</button>
+  </div>
+
+  <div class="stadium-grid" id="stadiumGrid"></div>
+</main>
+
+<footer class="footer">
+  <span>© <b>Saifis Works</b> · 2026</span>
+  <span><b>Drop №058</b> · The Cup</span>
+</footer>
+
+<script>
+  const themeToggle = document.getElementById('themeToggle');
+  const topBar = document.getElementById('topBar');
+  function applyTheme(t){ document.documentElement.classList.toggle('dark', t === 'dark'); }
+  const saved = localStorage.getItem('wc.theme');
+  const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (sysDark ? 'dark' : 'light'));
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('wc.theme', next);
+  });
+  window.addEventListener('scroll', () => {
+    topBar.classList.toggle('scrolled', window.scrollY > 20);
+  });
+</script>
+
+<script>
+  const STADIUMS = [
+    { id: "mexico-city-stadium", stadium: "Estadio Azteca", city: "Mexico City", country: "Mexico", capacity: 83000, matches: 3, color: "#006341" },
+    { id: "guadalajara-stadium", stadium: "Estadio Akron", city: "Guadalajara", country: "Mexico", capacity: 46000, matches: 3, color: "#006341" },
+    { id: "monterrey-stadium", stadium: "Estadio BBVA", city: "Monterrey", country: "Mexico", capacity: 53500, matches: 3, color: "#006341" },
+    { id: "dallas-stadium", stadium: "AT&T Stadium", city: "Dallas", country: "USA", capacity: 80000, matches: 3, color: "#1a3a6b" },
+    { id: "atlanta-stadium", stadium: "Mercedes-Benz Stadium", city: "Atlanta", country: "USA", capacity: 71000, matches: 3, color: "#1a3a6b" },
+    { id: "houston-stadium", stadium: "NRG Stadium", city: "Houston", country: "USA", capacity: 72000, matches: 3, color: "#1a3a6b" },
+    { id: "kansas-city-stadium", stadium: "Arrowhead Stadium", city: "Kansas City", country: "USA", capacity: 76000, matches: 3, color: "#1a3a6b" },
+    { id: "philadelphia-stadium", stadium: "Lincoln Financial Field", city: "Philadelphia", country: "USA", capacity: 69000, matches: 3, color: "#1a3a6b" },
+    { id: "miami-stadium", stadium: "Hard Rock Stadium", city: "Miami", country: "USA", capacity: 65000, matches: 3, color: "#1a3a6b" },
+    { id: "seattle-stadium", stadium: "Lumen Field", city: "Seattle", country: "USA", capacity: 68000, matches: 3, color: "#1a3a6b" },
+    { id: "sf-bay-stadium", stadium: "Levi's Stadium", city: "Santa Clara", country: "USA", capacity: 68500, matches: 3, color: "#1a3a6b" },
+    { id: "boston-stadium", stadium: "Gillette Stadium", city: "Boston", country: "USA", capacity: 65000, matches: 3, color: "#1a3a6b" },
+    { id: "la-stadium", stadium: "SoFi Stadium", city: "Los Angeles", country: "USA", capacity: 70000, matches: 3, color: "#1a3a6b" },
+    { id: "new-york-new-jersey-stadium", stadium: "MetLife Stadium", city: "East Rutherford", country: "USA", capacity: 82500, matches: 4, color: "#1a3a6b" },
+    { id: "toronto-stadium", stadium: "BMO Field", city: "Toronto", country: "Canada", capacity: 45000, matches: 3, color: "#d90000" },
+    { id: "vancouver-stadium", stadium: "BC Place", city: "Vancouver", country: "Canada", capacity: 54500, matches: 3, color: "#d90000" }
+  ];
+
+  const grid = document.getElementById('stadiumGrid');
+  const filterBar = document.getElementById('filterBar');
+
+  function renderStadiums(country) {
+    const filtered = country === 'all' ? STADIUMS : STADIUMS.filter(s => s.country === country);
+
+    grid.innerHTML = filtered.map(s => {
+      const countryColors = { 'Mexico':'#006341', 'USA':'#1a3a6b', 'Canada':'#d90000' };
+      const countryLabels = { 'Mexico':'🇲🇽', 'USA':'🇺🇸', 'Canada':'🇨🇦' };
+      const flag = countryLabels[s.country] || '🏟️';
+      const color = countryColors[s.country] || '#888';
+
+      return `
+        <div class="stadium-card">
+          <div class="img-wrap">
+            <img src="./stadiums/${s.id}.webp" alt="${s.stadium}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22200%22%3E%3Crect width=%22400%22 height=%22200%22 fill=%22%23E5D7C6%22/%3E%3Ctext x=%22200%22 y=%22110%22 text-anchor=%22middle%22 fill=%22%237a6d5e%22 font-size=%2220%22 font-family=%22sans-serif%22%3E${s.stadium}%3C/text%3E%3C/svg%3E'">
+          </div>
+          <div class="info">
+            <div class="country-badge" style="background:${color};color:#fff">${flag} ${s.country}</div>
+            <div class="name">${s.stadium}</div>
+            <div class="city">📍 ${s.city}</div>
+            <div class="meta">
+              <span>🏟️ ${s.capacity.toLocaleString()}</span>
+              <span>📅 ${s.matches} matches</span>
+            </div>
+            <a class="cta" href="./stadium.html?id=${s.id}">View matches →</a>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  filterBar.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    filterBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderStadiums(btn.dataset.country);
+  });
+
+  renderStadiums('all');
+</script>
+
+<script src="./mobile-nav.js"></script>
+</body>
+</html>
